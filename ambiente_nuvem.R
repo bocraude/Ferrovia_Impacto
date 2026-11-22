@@ -13,3 +13,23 @@ assignInNamespace("read_municipality", function(code_muni = "all", year = 2020, 
 }, ns = "geobr")
 if (requireNamespace("osmdata", quietly = TRUE))
   osmdata::set_overpass_url("https://maps.mail.ru/osm/tools/overpass/api/interpreter")
+
+# Overpass instável: se a consulta já foi baixada para dados_brutos/osm/ (qN.txt = texto
+# exato da consulta gerada pelo osmdata; qN.xml = resposta do Overpass), osmdata_sf lê o
+# arquivo em vez de consultar o servidor. O conteúdo é o mesmo que o servidor devolveria.
+if (requireNamespace("osmdata", quietly = TRUE) && dir.exists("dados_brutos/osm")) local({
+  orig <- osmdata::osmdata_sf
+  assignInNamespace("osmdata_sf", function(q, doc, quiet = TRUE, ...) {
+    if (missing(doc)) {
+      txt <- osmdata::opq_string(q)
+      for (f in list.files("dados_brutos/osm", pattern = "^q\\d+\\.txt$", full.names = TRUE)) {
+        x <- sub("\\.txt$", ".xml", f)
+        if (file.exists(x) && identical(paste(readLines(f), collapse = "\n"), txt)) {
+          message("OSM: usando resposta em cache ", x)
+          return(orig(q, doc = x, quiet = quiet, ...))
+        }
+      }
+    }
+    orig(q, doc, quiet = quiet, ...)
+  }, ns = "osmdata")
+})
