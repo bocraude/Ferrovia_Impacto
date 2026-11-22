@@ -49,7 +49,17 @@ if (!is.na(oficial)) {
     q <- opq(bbox = bbox, timeout = 300) |>
       add_osm_feature(key = "railway", value = c("rail", "construction", "disused", "proposed")) |>
       add_osm_feature(key = "name", value = padrao, value_exact = FALSE, match_case = FALSE)
-    r <- tryCatch(osmdata_sf(q)$osm_lines, error = function(e) { message("Overpass: ", conditionMessage(e)); NULL })
+    # consulta com erro (ex.: 504 do servidor) não pode virar "sem trechos": repete até responder
+    r <- NULL; ok <- FALSE
+    for (tentativa in 1:8) {
+      r <- tryCatch({ x <- osmdata_sf(q)$osm_lines; ok <- TRUE; x },
+                    error = function(e) { message("Overpass (", padrao, ", tentativa ", tentativa, "): ",
+                                                  conditionMessage(e)); NULL })
+      if (ok) break
+      Sys.sleep(30)
+    }
+    if (!ok) stop("Overpass não respondeu à consulta '", padrao, "' após 8 tentativas.")
+    message("OSM '", padrao, "': ", if (is.null(r)) 0 else nrow(r), " trechos")
     if (is.null(r) || !nrow(r)) return(NULL)
     r |> select(osm_id, any_of(c("name", "railway", "ref")))
   }
