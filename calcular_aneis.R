@@ -35,6 +35,7 @@ mun <- read_municipality(code_muni = "all", year = ANO_MALHA, simplified = FALSE
   st_make_valid() |>
   mutate(cod_ibge = as.character(code_muni), uf_cod = as.integer(substr(cod_ibge, 1, 2))) |>
   select(cod_ibge, nome = name_muni, uf = abbrev_state, uf_cod)
+st_geometry(mun) <- "geometry"   # a malha do geobr vem com a coluna "geom"; os cálculos abaixo usam "geometry"
 
 # ---- 2. Tratados ----------------------------------------------------------------
 arq_tracado <- list.files(".", pattern = "^tracado_ferrovias\\.(shp|gpkg)$")[1]

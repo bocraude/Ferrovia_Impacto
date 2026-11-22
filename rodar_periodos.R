@@ -15,12 +15,19 @@ PERIODOS <- list(
   ate_2023 = list(ANO_MAX = 2023, CONTROLE_AGRO = TRUE)
 )
 
+# Opcional, para rodar os períodos em paralelo (um processo cada) e comparar depois:
+#   SO_PERIODO=ate_2019 Rscript rodar_periodos.R   -> roda só esse período e encerra
+#   SO_COMPARAR=1 Rscript rodar_periodos.R         -> só monta a comparação
+SO_PERIODO <- Sys.getenv("SO_PERIODO"); SO_COMPARAR <- Sys.getenv("SO_COMPARAR") == "1"
 for (nome in names(PERIODOS)) {
+  if (SO_COMPARAR || (nzchar(SO_PERIODO) && nome != SO_PERIODO)) next
   message("\n==================== ", nome, " ====================")
   amb <- new.env()
   list2env(c(PERIODOS[[nome]], list(OUT = paste0("resultados_", nome))), envir = amb)
   sys.source("analise_impacto_ferrovias.R", envir = amb, keep.source = FALSE)
 }
+
+if (nzchar(SO_PERIODO)) quit(save = "no")
 
 # ---- Comparação ----------------------------------------------------------------
 CMP <- "resultados_comparacao"; dir.create(CMP, showWarnings = FALSE)

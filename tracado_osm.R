@@ -28,6 +28,7 @@ ESPERADO <- c("FIOL I" = 18, "FIOL II" = 12, "FNS-ES" = 28)   # contagens da dis
 mun <- read_municipality(code_muni = "all", year = 2020, simplified = FALSE, showProgress = FALSE) |>
   st_make_valid() |>
   transmute(cod_ibge = as.character(code_muni), nome = name_muni, uf = abbrev_state)
+st_geometry(mun) <- "geometry"   # a malha do geobr vem com a coluna "geom"; os cálculos abaixo usam "geometry"
 # o geobr grafa "Ouro Verde De Goiás", "União De Minas": comparar nomes sem diferenciar maiúsculas
 igual <- function(a, b) tolower(a) %in% tolower(b)
 centro <- function(nm, uf_) {
@@ -61,7 +62,9 @@ if (!is.na(oficial)) {
     if (!ok) stop("Overpass não respondeu à consulta '", padrao, "' após 8 tentativas.")
     message("OSM '", padrao, "': ", if (is.null(r)) 0 else nrow(r), " trechos")
     if (is.null(r) || !nrow(r)) return(NULL)
-    r |> select(osm_id, any_of(c("name", "railway", "ref")))
+    r <- r |> select(osm_id, any_of(c("name", "railway", "ref")))
+    names(st_geometry(r)) <- NULL      # geometrias nomeadas quebram bind_rows/distinct
+    r
   }
   bbox_ba  <- c(-46.7, -18.4, -38.9, -10.0)      # oeste a leste da Bahia
   bbox_fns <- c(-51.5, -20.6, -48.5, -15.8)      # Ouro Verde (GO) a Estrela d'Oeste (SP)

@@ -333,7 +333,13 @@ scm_ferrovia <- function(k, psm = FALSE) {
                      margin_ipop = .02, sigf_ipop = 7, bound_ipop = 6) |>
     generate_control()
 }
-scm <- set_names(map(FERROV, scm_ferrovia), FERROV)
+# O ajuste com placebos refaz o controle sintético uma vez por doador: com todos os
+# controles elegíveis (271 na BA, ~1.570 na FNS) leva dias. SCM_COMPLETO=0 no ambiente
+# pula esta seção; o controle sintético com doadores pareados (seção 11) e o SC do
+# synthdid (seção 4) continuam rodando. Padrão: roda (comportamento original).
+SCM_COMPLETO <- Sys.getenv("SCM_COMPLETO", "1") == "1"
+if (!SCM_COMPLETO) message("SCM_COMPLETO=0: seção 3 (controle sintético com todos os doadores) NÃO executada.")
+scm <- if (SCM_COMPLETO) set_names(map(FERROV, scm_ferrovia), FERROV) else list()
 iwalk(scm, function(s, k) {
   tag <- str_replace_all(k, "[^A-Za-z]", "")
   salva(plot_trends(s) + labs(title = k), paste0("05_scm_trajetoria_", tag, ".png"))

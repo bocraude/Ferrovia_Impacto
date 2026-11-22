@@ -416,198 +416,198 @@ cod_ibge,nome,uf,ferrovia,pool,anel,anel_fiol1,anel_fiol2,anel_fns,outro_projeto
 2923803,Paripiranga,BA,controle,BA,11,11,11,11,0,5,
 2926509,Ribeira Do Amparo,BA,controle,BA,11,11,11,11,0,7,
 2927002,Rio Real,BA,controle,BA,11,11,11,11,0,8,
-5200134,Acreúna,GO,FNS-ES,FNS,0,11,11,0,0,9,
-5203609,Brazabrantes,GO,FNS-ES,FNS,0,11,9,0,0,5,
-5204102,Cachoeira Alta,GO,FNS-ES,FNS,0,11,11,0,0,9,
-5204607,Campestre De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,7,
-5206800,Damolândia,GO,FNS-ES,FNS,0,11,8,0,0,4,
-5208806,Goianira,GO,FNS-ES,FNS,0,11,9,0,0,5,
-5209952,Indiara,GO,FNS-ES,FNS,0,11,10,0,0,9,
-5211701,Jandaia,GO,FNS-ES,FNS,0,11,11,0,0,9,
-5215009,Nova Veneza,GO,FNS-ES,FNS,0,11,9,0,0,5,
-5215405,Ouro Verde De Goiás,GO,FNS-ES,FNS,0,11,8,0,0,4,
-5215702,Palmeiras De Goiás,GO,FNS-ES,FNS,0,11,10,0,0,8,
-5216304,Paranaiguara,GO,FNS-ES,FNS,0,11,11,0,0,10,
-5218508,Quirinópolis,GO,FNS-ES,FNS,0,11,10,0,0,9,
-5218805,Rio Verde,GO,FNS-ES,FNS,0,11,10,0,0,8,
-5219100,Santa Bárbara De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,7,
-5219308,Santa Helena De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,9,
+5200134,Acreúna,GO,FNS-ES,FNS,0,11,11,0,0,7,
+5203609,Brazabrantes,GO,FNS-ES,FNS,0,11,9,0,0,2,
+5204102,Cachoeira Alta,GO,FNS-ES,FNS,0,11,11,0,0,8,
+5204607,Campestre De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,4,
+5206800,Damolândia,GO,FNS-ES,FNS,0,11,8,0,0,1,
+5208806,Goianira,GO,FNS-ES,FNS,0,11,9,0,0,2,
+5209952,Indiara,GO,FNS-ES,FNS,0,11,10,0,0,6,
+5211701,Jandaia,GO,FNS-ES,FNS,0,11,11,0,0,6,
+5215009,Nova Veneza,GO,FNS-ES,FNS,0,11,9,0,0,2,
+5215405,Ouro Verde De Goiás,GO,FNS-ES,FNS,0,11,8,0,0,1,
+5215702,Palmeiras De Goiás,GO,FNS-ES,FNS,0,11,10,0,0,5,
+5216304,Paranaiguara,GO,FNS-ES,FNS,0,11,11,0,0,9,
+5218508,Quirinópolis,GO,FNS-ES,FNS,0,11,10,0,0,8,
+5218805,Rio Verde,GO,FNS-ES,FNS,0,11,10,0,0,7,
+5219100,Santa Bárbara De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,4,
+5219308,Santa Helena De Goiás,GO,FNS-ES,FNS,0,11,11,0,0,8,
 5220405,São Simão,GO,FNS-ES,FNS,0,11,11,0,0,10,
-5221403,Trindade,GO,FNS-ES,FNS,0,11,10,0,0,6,
-5221551,Turvelândia,GO,FNS-ES,FNS,0,11,10,0,0,9,
-5200050,Abadia De Goiás,GO,controle,FNS,1,11,9,1,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201108,Anápolis,GO,controle,FNS,1,11,7,1,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201454,Aparecida Do Rio Doce,GO,controle,FNS,1,11,11,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5202809,Avelinópolis,GO,controle,FNS,1,11,10,1,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5203500,Bom Jesus De Goiás,GO,controle,FNS,1,11,9,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5221403,Trindade,GO,FNS-ES,FNS,0,11,10,0,0,3,
+5221551,Turvelândia,GO,FNS-ES,FNS,0,11,10,0,0,8,
+5200050,Abadia De Goiás,GO,controle,FNS,1,11,9,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201108,Anápolis,GO,controle,FNS,1,11,7,1,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201454,Aparecida Do Rio Doce,GO,controle,FNS,1,11,11,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5202809,Avelinópolis,GO,controle,FNS,1,11,10,1,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5203500,Bom Jesus De Goiás,GO,controle,FNS,1,11,9,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5204409,Caiapônia,GO,controle,FNS,1,11,11,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5204854,Campo Limpo De Goiás,GO,controle,FNS,1,11,8,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5204854,Campo Limpo De Goiás,GO,controle,FNS,1,11,8,1,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5204904,Campos Belos,GO,controle,FNS,1,6,1,8,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5205059,Castelândia,GO,controle,FNS,1,11,9,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5205208,Caturaí,GO,controle,FNS,1,11,9,1,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5205059,Castelândia,GO,controle,FNS,1,11,9,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5205208,Caturaí,GO,controle,FNS,1,11,9,1,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5204300,Caçu,GO,controle,FNS,1,11,11,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5205455,Cezarina,GO,controle,FNS,1,11,9,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5205455,Cezarina,GO,controle,FNS,1,11,9,1,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5206701,Damianópolis,GO,controle,FNS,1,6,1,8,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5207352,Edealina,GO,controle,FNS,1,11,9,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5207402,Edéia,GO,controle,FNS,1,11,10,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5208707,Goiânia,GO,controle,FNS,1,11,9,1,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5209150,Gouvelândia,GO,controle,FNS,1,11,10,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5209200,Guapó,GO,controle,FNS,1,11,10,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5207352,Edealina,GO,controle,FNS,1,11,9,1,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5207402,Edéia,GO,controle,FNS,1,11,10,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5208707,Goiânia,GO,controle,FNS,1,11,9,1,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5209150,Gouvelândia,GO,controle,FNS,1,11,10,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5209200,Guapó,GO,controle,FNS,1,11,10,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5209408,Guarani De Goiás,GO,controle,FNS,1,6,1,8,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5210000,Inhumas,GO,controle,FNS,1,11,8,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5210000,Inhumas,GO,controle,FNS,1,11,8,1,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5211305,Itarumã,GO,controle,FNS,1,11,11,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5211909,Jataí,GO,controle,FNS,1,11,11,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5212709,Mambaí,GO,controle,FNS,1,6,1,9,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5213004,Maurilândia,GO,controle,FNS,1,11,10,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5213756,Montividiu,GO,controle,FNS,1,11,11,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5214408,Nazário,GO,controle,FNS,1,11,11,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5214507,Nerópolis,GO,controle,FNS,1,11,8,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5215900,Palminópolis,GO,controle,FNS,1,11,11,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5216403,Paraúna,GO,controle,FNS,1,11,11,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5216809,Petrolina De Goiás,GO,controle,FNS,1,11,7,1,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5218052,Porteirão,GO,controle,FNS,1,11,9,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5213004,Maurilândia,GO,controle,FNS,1,11,10,1,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5213756,Montividiu,GO,controle,FNS,1,11,11,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5214408,Nazário,GO,controle,FNS,1,11,11,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5214507,Nerópolis,GO,controle,FNS,1,11,8,1,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5215900,Palminópolis,GO,controle,FNS,1,11,11,1,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5216403,Paraúna,GO,controle,FNS,1,11,11,1,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5216809,Petrolina De Goiás,GO,controle,FNS,1,11,7,1,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5218052,Porteirão,GO,controle,FNS,1,11,9,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5218300,Posse,GO,controle,FNS,1,6,1,8,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5219712,Santo Antônio Da Barra,GO,controle,FNS,1,11,11,1,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5219738,Santo Antônio De Goiás,GO,controle,FNS,1,11,9,1,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5219712,Santo Antônio Da Barra,GO,controle,FNS,1,11,11,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5219738,Santo Antônio De Goiás,GO,controle,FNS,1,11,9,1,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5219803,São Domingos,GO,controle,FNS,1,6,1,7,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5220702,Sítio D'abadia,GO,controle,FNS,1,6,1,7,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5221502,Turvânia,GO,controle,FNS,1,11,11,1,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5200100,Abadiânia,GO,controle,FNS,2,11,7,2,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5200159,Adelândia,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5221502,Turvânia,GO,controle,FNS,1,11,11,1,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5200100,Abadiânia,GO,controle,FNS,2,11,7,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5200159,Adelândia,GO,controle,FNS,2,11,11,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5200803,Alvorada Do Norte,GO,controle,FNS,2,7,2,7,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201306,Anicuns,GO,controle,FNS,2,11,10,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201405,Aparecida De Goiânia,GO,controle,FNS,2,11,8,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201306,Anicuns,GO,controle,FNS,2,11,10,2,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201405,Aparecida De Goiânia,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5201504,Aporé,GO,controle,FNS,2,11,11,2,0,10,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201801,Aragoiânia,GO,controle,FNS,2,11,9,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5201603,Araçu,GO,controle,FNS,2,11,9,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201801,Aragoiânia,GO,controle,FNS,2,11,9,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5201603,Araçu,GO,controle,FNS,2,11,9,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5202353,Arenópolis,GO,controle,FNS,2,11,11,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5202601,Aurilândia,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5202601,Aurilândia,GO,controle,FNS,2,11,11,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5203104,Baliza,GO,controle,FNS,2,11,11,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5203401,Bom Jardim De Goiás,GO,controle,FNS,2,11,11,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5203559,Bonfinópolis,GO,controle,FNS,2,11,8,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5203559,Bonfinópolis,GO,controle,FNS,2,11,8,2,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5203962,Buritinópolis,GO,controle,FNS,2,7,2,8,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5204201,Cachoeira De Goiás,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5204201,Cachoeira De Goiás,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5208301,Divinópolis De Goiás,GO,controle,FNS,2,7,2,8,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5207253,Doverlândia,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5207808,Firminópolis,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5207808,Firminópolis,GO,controle,FNS,2,11,11,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5207907,Flores De Goiás,GO,controle,FNS,2,7,2,6,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5208152,Gameleira De Goiás,GO,controle,FNS,2,11,7,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5208400,Goianápolis,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5209101,Goiatuba,GO,controle,FNS,2,11,8,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5208152,Gameleira De Goiás,GO,controle,FNS,2,11,7,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5208400,Goianápolis,GO,controle,FNS,2,11,8,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5209101,Goiatuba,GO,controle,FNS,2,11,8,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5209903,Iaciara,GO,controle,FNS,2,7,2,7,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5209937,Inaciolândia,GO,controle,FNS,2,11,9,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5210406,Itaberaí,GO,controle,FNS,2,11,9,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5210406,Itaberaí,GO,controle,FNS,2,11,9,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5210802,Itajá,GO,controle,FNS,2,11,11,2,0,10,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5211404,Itauçu,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5211404,Itauçu,GO,controle,FNS,2,11,8,2,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5211503,Itumbiara,GO,controle,FNS,2,11,8,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5211602,Ivolândia,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5212055,Jesúpolis,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5212303,Leopoldo De Bulhões,GO,controle,FNS,2,11,7,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5212600,Mairipotaba,GO,controle,FNS,2,11,8,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5212055,Jesúpolis,GO,controle,FNS,2,11,8,2,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5212303,Leopoldo De Bulhões,GO,controle,FNS,2,11,7,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5212600,Mairipotaba,GO,controle,FNS,2,11,8,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5213103,Mineiros,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5213509,Monte Alegre De Goiás,GO,controle,FNS,2,7,2,7,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5214903,Nova Roma,GO,controle,FNS,2,7,2,6,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5215652,Palestina De Goiás,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5216007,Panamá,GO,controle,FNS,2,11,9,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5216007,Panamá,GO,controle,FNS,2,11,9,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5216452,Perolândia,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5217203,Piranhas,GO,controle,FNS,2,11,11,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5217302,Pirenópolis,GO,controle,FNS,2,11,6,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5217708,Pontalina,GO,controle,FNS,2,11,8,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5219506,Santa Rosa De Goiás,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5220454,Senador Canedo,GO,controle,FNS,2,11,8,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5217302,Pirenópolis,GO,controle,FNS,2,11,6,2,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5217708,Pontalina,GO,controle,FNS,2,11,8,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5219506,Santa Rosa De Goiás,GO,controle,FNS,2,11,8,2,0,1,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5220454,Senador Canedo,GO,controle,FNS,2,11,8,2,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5220504,Serranópolis,GO,controle,FNS,2,11,11,2,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5220603,Silvânia,GO,controle,FNS,2,11,6,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5220603,Silvânia,GO,controle,FNS,2,11,6,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
 5220686,Simolândia,GO,controle,FNS,2,7,2,8,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5219902,São Francisco De Goiás,GO,controle,FNS,2,11,7,2,0,3,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5220058,São João Da Paraúna,GO,controle,FNS,2,11,11,2,0,9,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5220108,São Luís De Montes Belos,GO,controle,FNS,2,11,11,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5221197,Terezópolis De Goiás,GO,controle,FNS,2,11,8,2,0,4,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5221908,Varjão,GO,controle,FNS,2,11,9,2,0,7,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5222054,Vicentinópolis,GO,controle,FNS,2,11,9,2,0,8,vizinho do traçado: fora do controle principal (usar em transbordamento)
-5200308,Alexânia,GO,controle,FNS,3,11,6,3,0,4,
-5200506,Aloândia,GO,controle,FNS,3,11,8,3,0,7,
+5219902,São Francisco De Goiás,GO,controle,FNS,2,11,7,2,1,0,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5220058,São João Da Paraúna,GO,controle,FNS,2,11,11,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5220108,São Luís De Montes Belos,GO,controle,FNS,2,11,11,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5221197,Terezópolis De Goiás,GO,controle,FNS,2,11,8,2,0,2,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5221908,Varjão,GO,controle,FNS,2,11,9,2,0,5,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5222054,Vicentinópolis,GO,controle,FNS,2,11,9,2,0,6,vizinho do traçado: fora do controle principal (usar em transbordamento)
+5200308,Alexânia,GO,controle,FNS,3,11,6,3,0,3,
+5200506,Aloândia,GO,controle,FNS,3,11,8,3,0,6,
 5200605,Alto Paraíso De Goiás,GO,controle,FNS,3,8,3,5,1,0,outro projeto ferroviário: fora do controle principal
-5200852,Americano Do Brasil,GO,controle,FNS,3,11,10,3,0,6,
+5200852,Americano Do Brasil,GO,controle,FNS,3,11,10,3,0,3,
 5200902,Amorinópolis,GO,controle,FNS,3,11,11,3,0,8,
 5201702,Aragarças,GO,controle,FNS,3,11,10,3,0,5,
-5203302,Bela Vista De Goiás,GO,controle,FNS,3,11,7,3,0,5,
+5203302,Bela Vista De Goiás,GO,controle,FNS,3,11,7,3,0,3,
 5203906,Buriti Alegre,GO,controle,FNS,3,11,7,3,0,6,
 5204003,Cabeceiras,GO,controle,FNS,3,8,3,6,0,2,
 5204250,Cachoeira Dourada,GO,controle,FNS,3,11,9,3,0,8,
-5204557,Caldazinha,GO,controle,FNS,3,11,7,3,0,5,
+5204557,Caldazinha,GO,controle,FNS,3,11,7,3,0,3,
 5205307,Cavalcante,GO,controle,FNS,3,8,3,6,0,1,vizinho de outro projeto: avaliar
 5205471,Chapadão Do Céu,GO,controle,FNS,3,11,11,3,0,9,
 5205513,Cocalzinho De Goiás,GO,controle,FNS,3,11,6,3,0,2,
-5205802,Corumbá De Goiás,GO,controle,FNS,3,11,6,3,0,3,
-5206503,Cromínia,GO,controle,FNS,3,11,9,3,0,7,
-5205703,Córrego Do Ouro,GO,controle,FNS,3,11,11,3,0,7,
+5205802,Corumbá De Goiás,GO,controle,FNS,3,11,6,3,0,2,
+5206503,Cromínia,GO,controle,FNS,3,11,9,3,0,5,
+5205703,Córrego Do Ouro,GO,controle,FNS,3,11,11,3,0,5,
 5207105,Diorama,GO,controle,FNS,3,11,11,3,0,6,
 5208004,Formosa,GO,controle,FNS,3,8,3,6,0,1,vizinho de outro projeto: avaliar
-5208608,Goianésia,GO,controle,FNS,3,11,6,3,0,2,
-5208905,Goiás,GO,controle,FNS,3,11,10,3,0,5,
-5209606,Heitoraí,GO,controle,FNS,3,11,9,3,0,5,
-5209705,Hidrolândia,GO,controle,FNS,3,11,8,3,0,6,
+5208608,Goianésia,GO,controle,FNS,3,11,6,3,0,1,vizinho de outro projeto: avaliar
+5208905,Goiás,GO,controle,FNS,3,11,10,3,0,3,
+5209606,Heitoraí,GO,controle,FNS,3,11,9,3,0,2,
+5209705,Hidrolândia,GO,controle,FNS,3,11,8,3,0,4,
 5210208,Iporá,GO,controle,FNS,3,11,11,3,0,7,
-5210562,Itaguari,GO,controle,FNS,3,11,8,3,0,4,
-5210604,Itaguaru,GO,controle,FNS,3,11,8,3,0,4,
-5211800,Jaraguá,GO,controle,FNS,3,11,7,3,0,3,
-5212105,Joviânia,GO,controle,FNS,3,11,8,3,0,7,
+5210562,Itaguari,GO,controle,FNS,3,11,8,3,0,1,vizinho de outro projeto: avaliar
+5210604,Itaguaru,GO,controle,FNS,3,11,8,3,0,1,vizinho de outro projeto: avaliar
+5211800,Jaraguá,GO,controle,FNS,3,11,7,3,1,0,outro projeto ferroviário: fora do controle principal
+5212105,Joviânia,GO,controle,FNS,3,11,8,3,0,6,
 5212253,Lagoa Santa,GO,controle,FNS,3,11,11,3,0,11,
-5212501,Luziânia,GO,controle,FNS,3,10,5,3,0,4,
-5213400,Moiporá,GO,controle,FNS,3,11,11,3,0,7,
+5212501,Luziânia,GO,controle,FNS,3,10,5,3,0,3,
+5213400,Moiporá,GO,controle,FNS,3,11,11,3,0,6,
 5213707,Montes Claros De Goiás,GO,controle,FNS,3,11,10,3,0,5,
-5213806,Morrinhos,GO,controle,FNS,3,11,7,3,0,6,
-5213905,Mossâmedes,GO,controle,FNS,3,11,10,3,0,6,
-5215306,Orizona,GO,controle,FNS,3,11,6,3,0,5,
-5217104,Piracanjuba,GO,controle,FNS,3,11,7,3,0,6,
+5213806,Morrinhos,GO,controle,FNS,3,11,7,3,0,5,
+5213905,Mossâmedes,GO,controle,FNS,3,11,10,3,0,3,
+5215306,Orizona,GO,controle,FNS,3,11,6,3,0,3,
+5217104,Piracanjuba,GO,controle,FNS,3,11,7,3,0,4,
 5218102,Portelândia,GO,controle,FNS,3,11,11,3,0,9,
-5218391,Professor Jamil,GO,controle,FNS,3,11,8,3,0,7,
-5219001,Sanclerlândia,GO,controle,FNS,3,11,11,3,0,7,
+5218391,Professor Jamil,GO,controle,FNS,3,11,8,3,0,5,
+5219001,Sanclerlândia,GO,controle,FNS,3,11,11,3,0,4,
 5219407,Santa Rita Do Araguaia,GO,controle,FNS,3,11,11,3,0,9,
 5220009,São João D'aliança,GO,controle,FNS,3,8,3,5,1,0,outro projeto ferroviário: fora do controle principal
-5220264,São Miguel Do Passa Quatro,GO,controle,FNS,3,11,7,3,0,5,
-5221007,Taquaral De Goiás,GO,controle,FNS,3,11,8,3,0,4,
+5220264,São Miguel Do Passa Quatro,GO,controle,FNS,3,11,7,3,0,3,
+5221007,Taquaral De Goiás,GO,controle,FNS,3,11,8,3,0,1,vizinho de outro projeto: avaliar
 5221080,Teresina De Goiás,GO,controle,FNS,3,8,3,6,0,1,vizinho de outro projeto: avaliar
-5221700,Uruana,GO,controle,FNS,3,11,8,3,0,4,
-5222005,Vianópolis,GO,controle,FNS,3,11,7,3,0,5,
+5221700,Uruana,GO,controle,FNS,3,11,8,3,0,1,vizinho de outro projeto: avaliar
+5222005,Vianópolis,GO,controle,FNS,3,11,7,3,0,3,
 5222203,Vila Boa,GO,controle,FNS,3,8,3,7,0,1,vizinho de outro projeto: avaliar
 5222302,Vila Propício,GO,controle,FNS,3,10,5,3,0,1,vizinho de outro projeto: avaliar
 5203203,Barro Alto,GO,controle,FNS,4,10,5,4,0,1,vizinho de outro projeto: avaliar
-5203939,Buriti De Goiás,GO,controle,FNS,4,11,11,4,0,6,
+5203939,Buriti De Goiás,GO,controle,FNS,4,11,11,4,0,4,
 5204508,Caldas Novas,GO,controle,FNS,4,11,6,4,0,5,
-5205000,Carmo Do Rio Verde,GO,controle,FNS,4,11,9,4,0,5,
+5205000,Carmo Do Rio Verde,GO,controle,FNS,4,11,9,4,0,2,
 5205497,Cidade Ocidental,GO,controle,FNS,4,10,5,4,0,3,
 5205521,Colinas Do Sul,GO,controle,FNS,4,9,4,5,0,1,vizinho de outro projeto: avaliar
 5205901,Corumbaíba,GO,controle,FNS,4,11,6,4,0,5,
 5206206,Cristalina,GO,controle,FNS,4,9,4,4,0,3,
-5206305,Cristianópolis,GO,controle,FNS,4,11,7,4,0,6,
-5207535,Faina,GO,controle,FNS,4,11,10,4,0,4,
-5207600,Fazenda Nova,GO,controle,FNS,4,11,11,4,0,6,
-5209291,Guaraíta,GO,controle,FNS,4,11,10,4,0,5,
+5206305,Cristianópolis,GO,controle,FNS,4,11,7,4,0,4,
+5207535,Faina,GO,controle,FNS,4,11,10,4,0,3,
+5207600,Fazenda Nova,GO,controle,FNS,4,11,11,4,0,5,
+5209291,Guaraíta,GO,controle,FNS,4,11,10,4,0,3,
 5210109,Ipameri,GO,controle,FNS,4,10,5,4,0,4,
-5210307,Israelândia,GO,controle,FNS,4,11,11,4,0,7,
-5211008,Itapirapuã,GO,controle,FNS,4,11,10,4,0,5,
-5211206,Itapuranga,GO,controle,FNS,4,11,9,4,0,5,
+5210307,Israelândia,GO,controle,FNS,4,11,11,4,0,6,
+5211008,Itapirapuã,GO,controle,FNS,4,11,10,4,0,4,
+5211206,Itapuranga,GO,controle,FNS,4,11,9,4,0,2,
 5212006,Jaupaci,GO,controle,FNS,4,11,11,4,0,6,
 5212204,Jussara,GO,controle,FNS,4,11,10,4,0,5,
 5212956,Matrinchã,GO,controle,FNS,4,11,10,4,0,4,
 5213053,Mimoso De Goiás,GO,controle,FNS,4,10,5,4,0,1,vizinho de outro projeto: avaliar
 5213087,Minaçu,GO,controle,FNS,4,9,4,6,0,1,vizinho de outro projeto: avaliar
 5214606,Niquelândia,GO,controle,FNS,4,9,4,4,1,0,outro projeto ferroviário: fora do controle principal
-5215207,Novo Brasil,GO,controle,FNS,4,11,11,4,0,6,
+5215207,Novo Brasil,GO,controle,FNS,4,11,11,4,0,4,
 5215231,Novo Gama,GO,controle,FNS,4,10,5,4,0,3,
 5215603,Padre Bernardo,GO,controle,FNS,4,10,5,4,0,2,
-5217401,Pires Do Rio,GO,controle,FNS,4,11,6,4,0,5,
+5217401,Pires Do Rio,GO,controle,FNS,4,11,6,4,0,4,
 5217609,Planaltina,GO,controle,FNS,4,9,4,5,0,2,
-5218607,Rialma,GO,controle,FNS,4,11,8,4,0,4,
-5218706,Rianápolis,GO,controle,FNS,4,11,8,4,0,4,
+5218607,Rialma,GO,controle,FNS,4,11,8,4,0,2,
+5218706,Rianápolis,GO,controle,FNS,4,11,8,4,0,1,vizinho de outro projeto: avaliar
 5218789,Rio Quente,GO,controle,FNS,4,11,7,4,0,6,
-5219209,Santa Cruz De Goiás,GO,controle,FNS,4,11,7,4,0,6,
-5219357,Santa Isabel,GO,controle,FNS,4,11,7,4,0,3,
+5219209,Santa Cruz De Goiás,GO,controle,FNS,4,11,7,4,0,5,
+5219357,Santa Isabel,GO,controle,FNS,4,11,7,4,0,1,vizinho de outro projeto: avaliar
 5219456,Santa Rita Do Novo Destino,GO,controle,FNS,4,10,5,4,0,1,vizinho de outro projeto: avaliar
 5219753,Santo Antônio Do Descoberto,GO,controle,FNS,4,10,5,4,0,3,
 5220157,São Luiz Do Norte,GO,controle,FNS,4,11,6,4,0,2,
-5221809,Urutaí,GO,controle,FNS,4,11,6,4,0,5,
+5221809,Urutaí,GO,controle,FNS,4,11,6,4,0,4,
 5221858,Valparaíso De Goiás,GO,controle,FNS,4,10,5,4,0,3,
 5200175,Água Fria De Goiás,GO,controle,FNS,4,9,4,5,0,1,vizinho de outro projeto: avaliar
 5200209,Água Limpa,GO,controle,FNS,4,11,7,4,0,6,
@@ -620,7 +620,7 @@ cod_ibge,nome,uf,ferrovia,pool,anel,anel_fiol1,anel_fiol2,anel_fns,outro_projeto
 5204706,Campinorte,GO,controle,FNS,5,10,5,6,1,0,outro projeto ferroviário: fora do controle principal
 5204805,Campo Alegre De Goiás,GO,controle,FNS,5,10,5,5,0,4,
 5205109,Catalão,GO,controle,FNS,5,10,5,5,0,4,
-5205406,Ceres,GO,controle,FNS,5,11,8,5,0,4,
+5205406,Ceres,GO,controle,FNS,5,11,8,5,0,3,
 5206602,Cumari,GO,controle,FNS,5,11,6,5,0,5,
 5208103,Formoso,GO,controle,FNS,5,10,5,7,0,1,vizinho de outro projeto: avaliar
 5208509,Goiandira,GO,controle,FNS,5,11,6,5,0,5,
@@ -628,13 +628,13 @@ cod_ibge,nome,uf,ferrovia,pool,anel,anel_fiol1,anel_fiol2,anel_fns,outro_projeto
 5210901,Itapaci,GO,controle,FNS,5,11,7,5,0,2,
 5212907,Marzagão,GO,controle,FNS,5,11,7,5,0,6,
 5213772,Montividiu Do Norte,GO,controle,FNS,5,10,5,7,0,2,
-5213855,Morro Agudo De Goiás,GO,controle,FNS,5,11,9,5,0,4,
+5213855,Morro Agudo De Goiás,GO,controle,FNS,5,11,9,5,0,3,
 5214804,Nova Aurora,GO,controle,FNS,5,11,6,5,0,5,
-5214861,Nova Glória,GO,controle,FNS,5,11,7,5,0,3,
-5215801,Palmelo,GO,controle,FNS,5,11,7,5,0,6,
+5214861,Nova Glória,GO,controle,FNS,5,11,7,5,0,2,
+5215801,Palmelo,GO,controle,FNS,5,11,7,5,0,5,
 5216908,Pilar De Goiás,GO,controle,FNS,5,11,6,5,0,1,vizinho de outro projeto: avaliar
 5219258,Santa Fé De Goiás,GO,controle,FNS,5,11,10,5,0,5,
-5220280,São Patrício,GO,controle,FNS,5,11,9,5,0,4,
+5220280,São Patrício,GO,controle,FNS,5,11,9,5,0,3,
 5221452,Trombas,GO,controle,FNS,5,10,5,7,0,2,
 5221601,Uruaçu,GO,controle,FNS,5,10,5,5,1,0,outro projeto ferroviário: fora do controle principal
 5200555,Alto Horizonte,GO,controle,FNS,6,11,7,6,0,1,vizinho de outro projeto: avaliar
