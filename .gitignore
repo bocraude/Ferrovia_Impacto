@@ -1,0 +1,7 @@
+dados_brutos/
+resultados*/
+painel_municipal.csv
+*.7z
+*.zip
+.Rhistory
+.RData
