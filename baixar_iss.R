@@ -6,10 +6,17 @@
 # ao final, escreve dados_brutos/iss_siconfi_2013_2023.csv — que
 # baixar_bases_fiol_fns.R reaproveita ao montar painel_municipal.csv.
 # =============================================================================
-library(httr2); library(dplyr); library(readr); library(purrr); library(stringr); library(tidyr)
+pacotes <- c("httr2", "dplyr", "readr", "purrr", "stringr", "tidyr", "curl")
+novos <- setdiff(pacotes, rownames(installed.packages()))
+if (length(novos)) install.packages(novos)
+invisible(lapply(pacotes, library, character.only = TRUE))
 DIR <- "dados_brutos"; PARTES <- file.path(DIR, "iss_partes"); dir.create(PARTES, TRUE, FALSE)
 N_PAR <- 6
-mun <- read_csv(file.path(DIR, "pib_municipios_5938.csv"), col_types = cols(cod_ibge = "c")) |>
+# lista de municípios: PIB bruto do passo 1 ou, se não houver, o painel já montado
+arq_mun <- if (file.exists(file.path(DIR, "pib_municipios_5938.csv")))
+  file.path(DIR, "pib_municipios_5938.csv") else "painel_municipal.csv"
+if (!file.exists(arq_mun)) stop("Rode antes baixar_bases_fiol_fns.R (ou coloque painel_municipal.csv nesta pasta).")
+mun <- read_csv(arq_mun, col_types = cols(cod_ibge = "c"), show_col_types = FALSE) |>
   distinct(cod_ibge) |> pull(cod_ibge)
 grade <- expand_grid(cod = mun, ano = 2013:2023)
 
@@ -26,8 +33,11 @@ for (cod in mun) {
   reqs <- map(2013:2023, ~ request("https://apidatalake.tesouro.gov.br/ords/siconfi/tt/dca") |>
                 req_url_query(an_exercicio = .x, no_anexo = "DCA-Anexo I-C", id_ente = cod) |>
                 req_timeout(90) |> req_retry(max_tries = 4))
-  resps <- req_perform_parallel(reqs, on_error = "continue", progress = FALSE,
-                                pool = curl::new_pool(host_con = N_PAR, total_con = N_PAR))
+  # httr2 >= 1.1 usa max_active; versões anteriores usam pool
+  resps <- if ("max_active" %in% names(formals(req_perform_parallel)))
+    req_perform_parallel(reqs, on_error = "continue", progress = FALSE, max_active = N_PAR) else
+    req_perform_parallel(reqs, on_error = "continue", progress = FALSE,
+                         pool = curl::new_pool(host_con = N_PAR, total_con = N_PAR))
   falhas <- sum(!map_lgl(resps, ~ inherits(.x, "httr2_response")))
   if (falhas) { message(cod, ": ", falhas, " consulta(s) falharam; fica para a próxima execução"); next }
   d <- map_dfr(resps, extrai)
