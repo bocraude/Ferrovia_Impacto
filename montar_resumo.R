@@ -134,6 +134,60 @@ add("## 5. Comparação entre períodos (Callaway & Sant'Anna)", "",
     md(cmp |> transmute(desfecho = rot[desfecho], painel, `efeito 2002–2019` = n3(efeito_ate_2019), `p` = pv(p_valor_ate_2019),
                         `efeito 2002–2023` = n3(efeito_ate_2023), `p ` = pv(p_valor_ate_2023), diferença = n3(diferenca))))
 
+# ---- ISS como variável dependente (rodar_iss.R), só 2002–2019 --------------------------
+PI <- "resultados_iss_ate_2019"
+if (file.exists(file.path(PI, "07_cs_tabela_ln_iss.csv"))) {
+  li <- function(f) read_csv(file.path(PI, f), show_col_types = FALSE)
+  roti <- c(ln_iss = "ln(ISS real)", ln_isspc = "ln(ISS real per capita)")
+  add("## 6. ISS como variável dependente (2002–2019)", "",
+      "Mesma amostra, datas, covariáveis, pareamento e estimadores da análise do PIB; muda só o desfecho (`rodar_iss.R`).",
+      "ISS municipal do Ipeadata/STN (série RISSM), deflacionado pelo deflator do PIB. Efeitos em pontos de log.", "",
+      "Cobertura do ISS na amostra (`00_cobertura_iss.csv`; série completa = 18 anos com ISS declarado e positivo):", "",
+      md(li("00_cobertura_iss.csv") |> transmute(ferrovia, pool, municípios = municipios, `série completa` = serie_completa,
+                                                 `média de anos com ISS` = n1(media_anos))),
+      "Callaway & Sant'Anna (painel incompleto aceito; bootstrap de 199 réplicas):", "")
+  csi <- map_dfr(names(roti), ~ li(paste0("07_cs_tabela_", .x, ".csv")))
+  add(md(csi |> filter(!str_detect(painel, "Teste de igualdade")) |>
+           transmute(desfecho = roti[desfecho], painel, efeito = n3(efeito), `efeito (%)` = n1(efeito_pct),
+                     `IC 95%` = paste0("[", n3(ic_inf), "; ", n3(ic_sup), "]"), p = pv(p_valor),
+                     `p pré-tendência` = pv(p_pretendencia), `MDE 80%` = n3(mde_80))))
+  add("Synthetic DiD, SC e DiD (só municípios com série completa de ISS; EP por placebo):", "",
+      md(li("06_sdid_sc_did.csv") |> transmute(ferrovia, desfecho = roti[desfecho], estimador, efeito = n3(efeito), EP = n3(se),
+                                               `IC 95%` = paste0("[", n3(ic_inf), "; ", n3(ic_sup), "]"))))
+  add("TWFE estático e Sun & Abraham (ATT, ln ISS):", "",
+      md(li("09_twfe_estatico.csv") |> transmute(amostra, desfecho = roti[desfecho], estimador = "TWFE", efeito = n3(efeito),
+                                                 EP = n3(se), p = pv(p_valor), `n obs.` = n_obs) |>
+           bind_rows(li("09_sunab_att.csv") |> transmute(amostra, desfecho = roti[["ln_iss"]], estimador = "Sun & Abraham",
+                                                         p = pv(2 * pnorm(-abs(efeito / se))), efeito = n3(efeito), EP = n3(se)) |>
+                       relocate(p, .after = EP))))
+  add("Efeitos por janela (TWFE):", "",
+      md(li("09c_efeitos_por_janela.csv") |> transmute(ferrovia, desfecho = roti[desfecho], janela, efeito = n3(efeito), EP = n3(se),
+                                                       `IC 95%` = paste0("[", n3(ic_inf), "; ", n3(ic_sup), "]"))))
+  if (file.exists(file.path(PI, "06b_sdid_efeitos_por_janela.csv")))
+    add("Synthetic DiD por janela (`DESFECHO=iss Rscript sdid_janelas.R`):", "",
+        md(li("06b_sdid_efeitos_por_janela.csv") |>
+             mutate(controles = ifelse(str_detect(controles, "Pareados"), "pareados", "todos")) |>
+             transmute(ferrovia, desfecho = roti[desfecho], janela, controles,
+                       txt = paste0(n3(efeito), " (", n3(se), "); p = ", pv(p_valor), "; n = ", n_trat, "/", n_ctrl)) |>
+             pivot_wider(names_from = controles, values_from = txt) |>
+             rename(`todos: efeito (EP); p; n trat/ctrl` = todos, `pareados: efeito (EP); p; n trat/ctrl` = pareados)))
+  add("Inferência por randomização (TWFE) e efeito mínimo detectável por placebo:", "",
+      md(li("10_inferencia_randomizacao.csv") |> left_join(li("12_mde_placebo.csv"), by = "ferrovia") |>
+           transmute(ferrovia, `efeito TWFE` = n3(efeito), `p randomização` = pv(p_randomizacao),
+                     `DP placebo` = n3(dp_placebo), `MDE 80% (%)` = n1(mde_80_pct))))
+  add("HonestDiD (IC robusto do efeito médio pós-obra em ln ISS):", "",
+      md(map_dfr(c("FIOL I" = "FIOLI", "FIOL II" = "FIOLII", "FNS-ES" = "FNSES"),
+                 ~ li(paste0("11_honestdid_", .x, ".csv")), .id = "ferrovia") |>
+           transmute(ferrovia, Mbar, `IC robusto` = paste0("[", n3(lb), "; ", n3(ub), "]"))))
+  add("Controles pareados × todos os elegíveis (n = municípios da amostra; o Synthetic DiD usa só os de série completa):", "",
+      md(li("14_psm_vs_todos.csv") |>
+           mutate(controles = ifelse(str_detect(controles, "Pareados"), "pareados", "todos")) |>
+           transmute(ferrovia, desfecho = roti[desfecho], estimador, controles,
+                     txt = paste0(n3(efeito), " (", n3(se), "); p = ", pv(p_valor), "; n = ", n_trat, "/", n_ctrl)) |>
+           pivot_wider(names_from = controles, values_from = txt) |>
+           rename(`todos: efeito (EP); p; n trat/ctrl` = todos, `pareados: efeito (EP); p; n trat/ctrl` = pareados)))
+}
+
 texto <- readLines("resumo_texto.md", encoding = "UTF-8")
 i <- which(texto == "<!-- TABELAS -->")
 writeLines(c(texto[seq_len(i - 1)], out, texto[-seq_len(i)]), "RESUMO_RESULTADOS.md", useBytes = TRUE)

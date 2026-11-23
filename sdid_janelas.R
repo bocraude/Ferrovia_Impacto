@@ -56,6 +56,12 @@ roda_periodo <- function(nome) {
       group_by(unidade) |> filter(sum(!is.na(y)) == n_distinct(amb$painel$ano)) |> ungroup() |> as.data.frame()
     pm <- panel.matrices(df, unit = 1, time = 2, outcome = 3, treatment = 4)
     N0 <- pm$N0; N1 <- nrow(pm$Y) - N0; T0 <- pm$T0
+    # amostra pequena demais para o placebo (precisa de pelo menos 2 controles além dos falsos tratados)
+    if (N0 - N1 < 2) {
+      message(nome, " | ", k, " | ", y, " | ", if (ps) "pareados" else "todos", ": NÃO estimado (",
+              N1, " tratados e ", N0, " controles com série completa)")
+      return(NULL)
+    }
     anos <- as.integer(colnames(pm$Y))[(T0 + 1):ncol(pm$Y)]
     obs <- curva(pm$Y, N0, T0)
     w <- attr(obs$est, "weights")
@@ -88,7 +94,7 @@ roda_periodo <- function(nome) {
     chk <- res |> filter(janela == "Total pós-obra", controles == "Todos os elegíveis") |>
       inner_join(read_csv(ref, show_col_types = FALSE) |> filter(estimador == "SDID") |>
                    select(ferrovia, desfecho, efeito_ref = efeito, se_ref = se), by = c("ferrovia", "desfecho"))
-    stopifnot(nrow(chk) == 6, all(abs(chk$efeito - chk$efeito_ref) < 1e-8))
+    stopifnot(nrow(chk) >= 1, all(abs(chk$efeito - chk$efeito_ref) < 1e-8))
     message(nome, ": efeito total confere com 06_sdid_sc_did.csv; razão EP (este / seção 4): ",
             paste(round(chk$se / chk$se_ref, 2), collapse = " "))
   }

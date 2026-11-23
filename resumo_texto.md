@@ -33,6 +33,22 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
    o efeito com todos os controles está concentrado na retomada (0,206 em 2018–2019; 0,311 em
    2018–2023) e é nulo com pareados (0,030 e 0,045). Na FNS-ES não há efeito no PIB em nenhuma fase.
 
+8. **ISS (seção 6, só 2002–2019): efeito grande, consistente e com o formato de uma obra.** Com o
+   ISS real como variável dependente, o Callaway & Sant'Anna dá 0,445 na média conjunta (p < 0,001;
+   cerca de 56%), com 0,428 na FIOL I, 0,478 na FIOL II e 0,443 na FNS-ES, e o teste de pré-tendência
+   não rejeita tendências paralelas em nenhuma (p entre 0,234 e 0,515). Synthetic DiD (0,519; 0,421;
+   0,530), TWFE (0,516; 0,462; 0,568) e Sun & Abraham apontam o mesmo, e a inferência por randomização
+   dá p ≤ 0,002. O efeito acompanha o cronograma: na FIOL I é 0,757 em 2011–2015 (obra) e 0,200 em
+   2016–2019 (ritmo baixo); na FIOL II, 0,376 em 2013–2017 e 0,666 em 2018–2019 (retomada).
+   Leitura: o ISS da construção civil é recolhido no município da obra, então isso mede sobretudo a
+   arrecadação gerada pelo próprio canteiro — um efeito fiscal direto e temporário — e não
+   necessariamente desenvolvimento econômico local, que o PIB não mostra.
+   Ressalvas: a série é o ISS total (não só da construção); muitos municípios têm anos sem declaração
+   (série completa em 8 de 18 tratados da FIOL I, 8 de 11 da FIOL II e 17 de 28 da FNS-ES), e o
+   Synthetic DiD usa apenas esses; na amostra pareada da FIOL II (5 tratados) só o TWFE rodou, com
+   efeito 0,094 (p = 0,674); o HonestDiD só exclui zero com Mbar = 0; e o controle sintético com
+   doadores pareados não roda com anos faltantes.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na
@@ -62,8 +78,10 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
   30.254 pares município-ano, diferença máxima de 0,005% (arredondamento).
 - **Deflator:** deflator do PIB (SIDRA 6784, variável 9811, encadeado, 2020 = 100), em
   `deflator_pib.csv`. `ipca.csv` (SIDRA 1737, índice de dezembro) só seria usado pela etapa 6.
-- **ISS:** Siconfi/DCA 2013–2023 baixado para os 2.161 municípios (20.835 observações); está no
-  painel, mas não entra em nenhuma estimativa. FINBRA 2002–2012 não baixado (manual).
+- **ISS:** série municipal 2002–2023 do Ipeadata (RISSM, origem STN), 46.435 observações para os
+  2.161 municípios, usada como variável dependente na seção 6. Coincide com o Siconfi/DCA baixado
+  antes (valores iguais em pelo menos 99,9% dos casos de 2014 a 2023, exceto 2016, com 95,7%).
+  A análise do ISS foi rodada só para 2002–2019, por decisão do usuário.
 - **População:** 3 controles sem população nos três censos (Barrocas/BA, Ipiranga de Goiás/GO e Lagoa
   Santa/GO) saem dos modelos com covariáveis.
 - **Versões:** R 4.3.3; `HonestDiD` 0.2.6 e `CVXR` 1.0-14 (as versões atuais exigem R ≥ 4.4);
