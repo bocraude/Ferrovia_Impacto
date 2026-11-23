@@ -27,6 +27,7 @@ escore de propensão. Datas de tratamento por ferrovia: FIOL I e FNS-ES em 2011,
 4. `deflator_pib.csv` (ano, deflator, 2020 = 100) e `ipca.csv` (ano, ipca_indice): montar a partir do
    SIDRA/IPEA se não existirem e registrar a fonte.
 5. `Rscript rodar_periodos.R` — roda `analise_impacto_ferrovias.R` para 2002–2019 e 2002–2023 e compara.
+5b. `Rscript sdid_janelas.R` — Synthetic DiD ano a ano e por janela (mesmas janelas do TWFE), depois do passo 5.
 6. `Rscript rais_longa_scm.R` — série longa da RAIS (1995–) e controle sintético longo. É o mais pesado.
 
 ## Regras de trabalho

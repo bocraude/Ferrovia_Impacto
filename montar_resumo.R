@@ -100,6 +100,22 @@ for (p in names(PER)) {
       md(bc |> filter(amostra == "Todas") |> transmute(comparação = type, peso = n3(peso), `efeito médio` = n3(efeito_medio))))
 }
 
+# ---- Synthetic DiD por janela (sdid_janelas.R) ---------------------------------------
+if (all(file.exists(file.path(paste0("resultados_", names(PER)), "06b_sdid_efeitos_por_janela.csv")))) {
+  add("## 3b. Synthetic DiD por janela (fase da obra)", "",
+      "Mesmo modelo da seção 3, com o efeito anual agregado nas janelas do TWFE (`sdid_janelas.R`); EP por placebo",
+      "(200 réplicas). A linha \"Total pós-obra\" reproduz o efeito do Synthetic DiD da seção 3.", "")
+  for (p in names(PER)) {
+    add(paste0("### ", PER[[p]]), "")
+    add(md(le(p, "06b_sdid_efeitos_por_janela.csv") |>
+             mutate(controles = ifelse(str_detect(controles, "Pareados"), "pareados", "todos")) |>
+             transmute(ferrovia, desfecho = rot[desfecho], janela, controles,
+                       txt = paste0(n3(efeito), " (", n3(se), "); p = ", pv(p_valor))) |>
+             pivot_wider(names_from = controles, values_from = txt) |>
+             rename(`todos os controles: efeito (EP); p` = todos, `pareados: efeito (EP); p` = pareados)))
+  }
+}
+
 # ---- Pareados x todos ---------------------------------------------------------------
 add("## 4. Controles pareados × todos os controles elegíveis", "")
 for (p in names(PER)) {
