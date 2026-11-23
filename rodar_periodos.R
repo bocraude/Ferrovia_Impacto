@@ -77,7 +77,7 @@ write_csv(le("14_psm_vs_todos.csv") |>
 
 # 4. Controle sintético: p-valor por placebos em cada período
 scm <- map_dfr(names(PERIODOS), function(nome) {
-  fs <- list.files(paste0("resultados_", nome), pattern = "^05_scm_inferencia_.*\\.csv$", full.names = TRUE)
+  fs <- list.files(paste0("resultados_", nome), pattern = "^(05_scm|14_scm_psm)_inferencia_.*\\.csv$", full.names = TRUE)
   map_dfr(fs, ~ read_csv(.x, show_col_types = FALSE) |>
             filter(str_detect(unit_name, "^TRAT_")) |>
             mutate(periodo = nome, arquivo = basename(.x)))

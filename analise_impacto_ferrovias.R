@@ -680,8 +680,9 @@ psm_comp <- map_dfr(FERROV, function(k) map_dfr(c(FALSE, TRUE), function(ps) {
   })
   tw <- tryCatch({
     m <- feols(c(ln_pib, ln_pibpc) ~ pos | ..fe, data = amostra(k, painel_fx, psm = ps), cluster = ~ id)
-    map_dfr(c("ln_pib", "ln_pibpc"), function(y) {
-      mm <- m[lhs = y]
+    # por posição: m[lhs = "ln_pib"] casa também com "ln_pibpc" e duplicava a linha
+    imap_dfr(c("ln_pib", "ln_pibpc"), function(y, i) {
+      mm <- m[[i]]
       tibble(estimador = "TWFE", desfecho = y, efeito = coef(mm)[["pos"]], se = se(mm)[["pos"]])
     })
   }, error = function(e) NULL)
