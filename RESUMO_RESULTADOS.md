@@ -27,6 +27,12 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
 6. **Pré-tendências:** o teste do CS rejeita tendências paralelas (p < 0,05) na média conjunta, na
    FIOL I e na FNS-ES para o PIB. Isso enfraquece a leitura causal de qualquer estimativa de DiD aqui.
 
+7. **Synthetic DiD por fase da obra** (seção 3b, `sdid_janelas.R`): na FIOL I há um efeito positivo
+   pequeno só na fase de obra 2011–2015 (0,058 no PIB, p = 0,079; 0,073 no PIB per capita, p = 0,029),
+   que some em 2016–2019 (−0,049) e não aparece com controles pareados (0,033; p = 0,210). Na FIOL II
+   o efeito com todos os controles está concentrado na retomada (0,206 em 2018–2019; 0,311 em
+   2018–2023) e é nulo com pareados (0,030 e 0,045). Na FNS-ES não há efeito no PIB em nenhuma fase.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na
@@ -410,6 +416,59 @@ Decomposição de Goodman-Bacon do TWFE (amostra com as três ferrovias):
 | Earlier vs Later Treated | 0,001 | 0,021 |
 | Later vs Earlier Treated | 0,001 | 0,186 |
 | Treated vs Untreated | 0,998 | 0,034 |
+
+## 3b. Synthetic DiD por janela (fase da obra)
+
+Mesmo modelo da seção 3, com o efeito anual agregado nas janelas do TWFE (`sdid_janelas.R`); EP por placebo
+(200 réplicas). A linha "Total pós-obra" reproduz o efeito do Synthetic DiD da seção 3.
+
+### 2002–2019
+
+| ferrovia | desfecho | janela | todos os controles: efeito (EP); p | pareados: efeito (EP); p |
+|---|---|---|---|---|
+| FIOL I | ln(PIB real) | 2011-2015 obra | 0,058 (0,033); p = 0,079 | 0,033 (0,026); p = 0,210 |
+| FIOL I | ln(PIB real) | 2016-2019 ritmo baixo | -0,049 (0,051); p = 0,338 | -0,098 (0,057); p = 0,086 |
+| FIOL I | ln(PIB real) | Total pós-obra | 0,010 (0,034); p = 0,762 | -0,026 (0,037); p = 0,486 |
+| FIOL I | ln(PIB real per capita) | 2011-2015 obra | 0,073 (0,033); p = 0,029 | 0,041 (0,027); p = 0,124 |
+| FIOL I | ln(PIB real per capita) | 2016-2019 ritmo baixo | -0,008 (0,053); p = 0,878 | -0,066 (0,060); p = 0,267 |
+| FIOL I | ln(PIB real per capita) | Total pós-obra | 0,037 (0,035); p = 0,298 | -0,007 (0,038); p = 0,862 |
+| FIOL II | ln(PIB real) | 2013-2017 início lento | 0,071 (0,044); p = 0,108 | 0,025 (0,044); p = 0,577 |
+| FIOL II | ln(PIB real) | 2018-2019 retomada | 0,206 (0,073); p = 0,005 | 0,030 (0,096); p = 0,753 |
+| FIOL II | ln(PIB real) | Total pós-obra | 0,110 (0,050); p = 0,027 | 0,026 (0,057); p = 0,649 |
+| FIOL II | ln(PIB real per capita) | 2013-2017 início lento | 0,048 (0,045); p = 0,286 | 0,033 (0,049); p = 0,505 |
+| FIOL II | ln(PIB real per capita) | 2018-2019 retomada | 0,161 (0,071); p = 0,023 | 0,047 (0,110); p = 0,671 |
+| FIOL II | ln(PIB real per capita) | Total pós-obra | 0,080 (0,049); p = 0,104 | 0,037 (0,065); p = 0,572 |
+| FNS-ES | ln(PIB real) | 2011-2019 obra Valec | 0,007 (0,032); p = 0,838 | 0,051 (0,041); p = 0,210 |
+| FNS-ES | ln(PIB real) | Total pós-obra | 0,007 (0,032); p = 0,838 | 0,051 (0,041); p = 0,210 |
+| FNS-ES | ln(PIB real per capita) | 2011-2019 obra Valec | -0,026 (0,036); p = 0,470 | 0,020 (0,041); p = 0,621 |
+| FNS-ES | ln(PIB real per capita) | Total pós-obra | -0,026 (0,036); p = 0,470 | 0,020 (0,041); p = 0,621 |
+
+### 2002–2023
+
+| ferrovia | desfecho | janela | todos os controles: efeito (EP); p | pareados: efeito (EP); p |
+|---|---|---|---|---|
+| FIOL I | ln(PIB real) | 2011-2015 obra | 0,056 (0,033); p = 0,085 | 0,026 (0,027); p = 0,344 |
+| FIOL I | ln(PIB real) | 2016-2020 ritmo baixo | -0,043 (0,051); p = 0,398 | -0,100 (0,061); p = 0,098 |
+| FIOL I | ln(PIB real) | 2021-2023 concessão | -0,012 (0,064); p = 0,852 | -0,088 (0,084); p = 0,298 |
+| FIOL I | ln(PIB real) | Total pós-obra | 0,002 (0,040); p = 0,954 | -0,049 (0,049); p = 0,317 |
+| FIOL I | ln(PIB real per capita) | 2011-2015 obra | 0,073 (0,033); p = 0,029 | 0,033 (0,027); p = 0,234 |
+| FIOL I | ln(PIB real per capita) | 2016-2020 ritmo baixo | 0,000 (0,054); p = 0,998 | -0,069 (0,062); p = 0,271 |
+| FIOL I | ln(PIB real per capita) | 2021-2023 concessão | 0,043 (0,066); p = 0,511 | -0,040 (0,088); p = 0,650 |
+| FIOL I | ln(PIB real per capita) | Total pós-obra | 0,038 (0,041); p = 0,360 | -0,023 (0,051); p = 0,647 |
+| FIOL II | ln(PIB real) | 2013-2017 início lento | 0,079 (0,045); p = 0,076 | 0,025 (0,045); p = 0,574 |
+| FIOL II | ln(PIB real) | 2018-2023 retomada | 0,311 (0,074); p = <0,001 | 0,045 (0,102); p = 0,656 |
+| FIOL II | ln(PIB real) | Total pós-obra | 0,205 (0,057); p = <0,001 | 0,036 (0,074); p = 0,622 |
+| FIOL II | ln(PIB real per capita) | 2013-2017 início lento | 0,053 (0,045); p = 0,236 | 0,032 (0,053); p = 0,540 |
+| FIOL II | ln(PIB real per capita) | 2018-2023 retomada | 0,254 (0,077); p = <0,001 | 0,060 (0,120); p = 0,616 |
+| FIOL II | ln(PIB real per capita) | Total pós-obra | 0,163 (0,059); p = 0,006 | 0,047 (0,087); p = 0,585 |
+| FNS-ES | ln(PIB real) | 2011-2018 obra Valec | 0,015 (0,031); p = 0,635 | 0,056 (0,039); p = 0,148 |
+| FNS-ES | ln(PIB real) | 2019-2020 conclusão | -0,056 (0,051); p = 0,278 | 0,017 (0,073); p = 0,811 |
+| FNS-ES | ln(PIB real) | 2021-2023 operação | -0,036 (0,056); p = 0,521 | 0,025 (0,086); p = 0,775 |
+| FNS-ES | ln(PIB real) | Total pós-obra | -0,008 (0,037); p = 0,830 | 0,043 (0,052); p = 0,406 |
+| FNS-ES | ln(PIB real per capita) | 2011-2018 obra Valec | -0,016 (0,035); p = 0,647 | 0,028 (0,040); p = 0,479 |
+| FNS-ES | ln(PIB real per capita) | 2019-2020 conclusão | -0,118 (0,056); p = 0,036 | -0,043 (0,066); p = 0,510 |
+| FNS-ES | ln(PIB real per capita) | 2021-2023 operação | -0,112 (0,064); p = 0,082 | -0,048 (0,085); p = 0,573 |
+| FNS-ES | ln(PIB real per capita) | Total pós-obra | -0,054 (0,042); p = 0,200 | -0,001 (0,051); p = 0,992 |
 
 ## 4. Controles pareados × todos os controles elegíveis
 

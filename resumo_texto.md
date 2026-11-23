@@ -27,6 +27,12 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
 6. **Pré-tendências:** o teste do CS rejeita tendências paralelas (p < 0,05) na média conjunta, na
    FIOL I e na FNS-ES para o PIB. Isso enfraquece a leitura causal de qualquer estimativa de DiD aqui.
 
+7. **Synthetic DiD por fase da obra** (seção 3b, `sdid_janelas.R`): na FIOL I há um efeito positivo
+   pequeno só na fase de obra 2011–2015 (0,058 no PIB, p = 0,079; 0,073 no PIB per capita, p = 0,029),
+   que some em 2016–2019 (−0,049) e não aparece com controles pareados (0,033; p = 0,210). Na FIOL II
+   o efeito com todos os controles está concentrado na retomada (0,206 em 2018–2019; 0,311 em
+   2018–2023) e é nulo com pareados (0,030 e 0,045). Na FNS-ES não há efeito no PIB em nenhuma fase.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na
