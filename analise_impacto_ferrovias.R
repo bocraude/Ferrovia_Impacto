@@ -91,6 +91,12 @@ km_mun     <- if (file.exists("km_por_municipio.csv"))
   group_by(cod_ibge) |> summarise(km = sum(km_no_municipio), .groups = "drop") else
   tibble(cod_ibge = character(), km = numeric())
 deflator   <- read_csv("deflator_pib.csv")       # ano, deflator (2020 = 100)
+# ISS: se existir a série longa do Ipeadata/STN (baixar_iss_ipeadata.R, 2002–2023), ela
+# substitui a coluna iss do painel (Siconfi, só 2013+); os valores coincidem em 2014–2023.
+if (file.exists("dados_brutos/iss_ipeadata_2002_2023.csv"))
+  painel_raw <- painel_raw |> select(-any_of("iss")) |>
+    left_join(read_csv("dados_brutos/iss_ipeadata_2002_2023.csv", col_types = cols(cod_ibge = "c", ano = "i", iss = "d")),
+              by = c("cod_ibge", "ano"))
 
 # ---- 1. Preparação -----------------------------------------------------------
 # 1a. Data de tratamento: única por ferrovia (DATA_TRAT); 0 = nunca tratado.
@@ -118,6 +124,9 @@ painel <- painel_raw |>
          emp_42_mil     = emp_div42_mil,
          ln_massa  = log(massa_dez_total * 100 / deflator + 1),
          iss_pc    = iss * 100 / deflator / pop_interp,
+         iss_real  = ifelse(!is.na(iss) & iss > 0, iss * 100 / deflator, NA_real_),   # R$ de 2020; zero/sem declaração = NA
+         ln_iss    = log(iss_real),
+         ln_isspc  = log(iss_real / pop_interp),
          rel       = ifelse(tratado, ano - g, NA_integer_))
 
 

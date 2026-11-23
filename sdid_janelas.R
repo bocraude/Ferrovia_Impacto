@@ -27,7 +27,11 @@ PERIODOS <- list(ate_2019 = list(ANO_MAX = 2019, CONTROLE_AGRO = FALSE),
                  ate_2023 = list(ANO_MAX = 2023, CONTROLE_AGRO = TRUE))
 SO_PERIODO <- Sys.getenv("SO_PERIODO")
 B_PLACEBO <- as.integer(Sys.getenv("B_PLACEBO", "200"))   # réplicas do placebo
-DESF <- c(ln_pib = "ln(PIB real)", ln_pibpc = "ln(PIB real per capita)")
+# DESFECHO=iss no ambiente: mesma coisa com o ISS (saídas em resultados_iss_<período>/)
+COM_ISS <- Sys.getenv("DESFECHO") == "iss"
+DESF <- if (COM_ISS) c(ln_iss = "ln(ISS real)", ln_isspc = "ln(ISS real per capita)") else
+  c(ln_pib = "ln(PIB real)", ln_pibpc = "ln(PIB real per capita)")
+PREFIXO <- if (COM_ISS) "resultados_iss_" else "resultados_"
 
 # Preparação (painel, amostras, pareamento) = seções 0 a 2f do script principal, sem repetir código
 fonte <- readLines("analise_impacto_ferrovias.R", encoding = "UTF-8")
@@ -43,7 +47,7 @@ roda_periodo <- function(nome) {
   amb <- new.env()
   list2env(c(PERIODOS[[nome]], list(OUT = tempfile("prep_"))), envir = amb)   # descritivas vão p/ pasta temporária
   suppressWarnings(suppressMessages(eval(parse(text = prep), envir = amb)))
-  OUT <- paste0("resultados_", nome); dir.create(OUT, showWarnings = FALSE)
+  OUT <- paste0(PREFIXO, nome); dir.create(OUT, showWarnings = FALSE)
   set.seed(2026)
 
   res <- map_dfr(amb$FERROV, function(k) map_dfr(c(FALSE, TRUE), function(ps) map_dfr(names(DESF), function(y) {
@@ -95,23 +99,23 @@ roda_periodo <- function(nome) {
 
   tema <- theme_minimal(base_size = 11) + theme(panel.grid.minor = element_blank(), legend.position = "top")
   cores <- c("Todos os elegíveis" = "grey45", "Pareados (escore de propensão)" = "#2a78d6")
-  g1 <- res |> filter(tipo == "ano", desfecho == "ln_pib") |> mutate(ano = as.integer(janela)) |>
+  g1 <- res |> filter(tipo == "ano", desfecho == names(DESF)[1]) |> mutate(ano = as.integer(janela)) |>
     ggplot(aes(ano, efeito, colour = controles, fill = controles)) +
     geom_hline(yintercept = 0, colour = "grey60") +
     geom_ribbon(aes(ymin = ic_inf, ymax = ic_sup), alpha = .15, colour = NA) +
     geom_line(linewidth = .7) + geom_point(size = 1.6) +
     scale_colour_manual(values = cores) + scale_fill_manual(values = cores) +
     facet_wrap(~ ferrovia, scales = "free_x") +
-    labs(x = NULL, y = "Efeito sobre ln(PIB real) — Synthetic DiD, IC 95%", colour = NULL, fill = NULL) + tema
+    labs(x = NULL, y = paste0("Efeito sobre ", DESF[[1]], " — Synthetic DiD, IC 95%"), colour = NULL, fill = NULL) + tema
   ggsave(file.path(OUT, "06b_sdid_efeito_anual.png"), g1, width = 10, height = 4)
-  g2 <- res |> filter(tipo == "janela", desfecho == "ln_pib") |>
+  g2 <- res |> filter(tipo == "janela", desfecho == names(DESF)[1]) |>
     mutate(janela = factor(janela, unique(janela))) |>
     ggplot(aes(janela, efeito, colour = controles, shape = controles)) +
     geom_hline(yintercept = 0, colour = "grey60") +
     geom_pointrange(aes(ymin = ic_inf, ymax = ic_sup), position = position_dodge(width = .5)) +
     scale_colour_manual(values = cores) +
     facet_wrap(~ ferrovia, scales = "free_x") +
-    labs(x = NULL, y = "Efeito sobre ln(PIB real) — Synthetic DiD, IC 95%", colour = NULL, shape = NULL) + tema +
+    labs(x = NULL, y = paste0("Efeito sobre ", DESF[[1]], " — Synthetic DiD, IC 95%"), colour = NULL, shape = NULL) + tema +
     theme(axis.text.x = element_text(angle = 20, hjust = 1))
   ggsave(file.path(OUT, "06b_sdid_efeitos_por_janela.png"), g2, width = 10, height = 4.5)
   invisible(res)
