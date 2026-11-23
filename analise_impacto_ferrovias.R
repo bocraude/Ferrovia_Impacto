@@ -365,7 +365,7 @@ sdid_ferrovia <- function(k, y = "ln_pib", psm = FALSE) {
               DiD  = did_estimate(pm$Y, pm$N0, pm$T0))
   tab <- imap_dfr(est, ~ tibble(ferrovia = k, desfecho = y, estimador = .y, ano_inicio = g0,
                                 efeito = as.numeric(.x),
-                                se = sqrt(vcov(.x, method = "placebo"))))
+                                se = as.numeric(sqrt(vcov(.x, method = "placebo")))))
   list(tab = tab, sdid = est$SDID)
 }
 sdid_res <- map(FERROV, function(k) map(c("ln_pib", "ln_pibpc"), ~ sdid_ferrovia(k, .x)))
@@ -377,10 +377,23 @@ iwalk(set_names(sdid_res, FERROV), function(r, k)
         paste0("06_sdid_", str_replace_all(k, "[^A-Za-z]", ""), ".png")))
 
 # ---- 5. Callaway & Sant'Anna --------------------------------------------------
+# Covariável sem variação entre os controles da ferrovia não pode entrar no ajuste
+# (matriz singular -> todos os ATT(g,t) viram NA). É o caso da soja na Bahia: nenhum
+# controle elegível tinha soja em 2002–2009. A fórmula é montada por ferrovia e as
+# covariáveis retiradas ficam registradas em 07_cs_covariaveis.csv.
+XFORM_K <- map(set_names(FERROV), function(k) {
+  ctrl <- amostra(k) |> filter(!tratado) |> distinct(cod_ibge, across(all_of(all.vars(XFORM))))
+  fora <- all.vars(XFORM)[map_lgl(all.vars(XFORM), ~ isTRUE(sd(ctrl[[.x]], na.rm = TRUE) < 1e-12))]
+  if (length(fora)) message("CS ", k, ": covariável sem variação nos controles retirada: ", paste(fora, collapse = ", "))
+  reformulate(setdiff(all.vars(XFORM), fora))
+})
+write_csv(imap_dfr(XFORM_K, ~ tibble(ferrovia = .y, covariaveis_usadas = paste(all.vars(.x), collapse = " + "),
+                                     retiradas_sem_variacao = paste(setdiff(all.vars(XFORM), all.vars(.x)), collapse = " + "))),
+          file.path(OUT, "07_cs_covariaveis.csv"))
 cs_ferrovia <- function(dados, k, y, controle = "nevertreated", gcol = "g", bstrap = FALSE,
                         antecip = 0, psm = FALSE) {
   d <- amostra(k, dados, psm = psm) |> mutate(gg = .data[[gcol]]) |> filter(!is.na(.data[[y]]))
-  m <- att_gt(yname = y, tname = "ano", idname = "id", gname = "gg", xformla = XFORM,
+  m <- att_gt(yname = y, tname = "ano", idname = "id", gname = "gg", xformla = XFORM_K[[k]],
               data = d, control_group = controle, base_period = "universal",
               anticipation = antecip, est_method = "dr", allow_unbalanced_panel = TRUE,
               bstrap = bstrap, cband = FALSE, print_details = FALSE)
@@ -495,8 +508,16 @@ twfe <- map(set_names(c("Todas", FERROV)), function(k) {
     sunab    = feols(ln_pib ~ sunab(coorte_sa, ano) | ..fe, data = d, cluster = ~ id),
     es_twfe  = feols(ln_pib ~ i(rel_bin, ref = c(-1, -1000)) | ..fe, data = d, cluster = ~ id))
 })
-do.call(etable, c(unname(map(twfe, "estatico")),
-                  list(file = file.path(OUT, "09_twfe_estatico.tex"), replace = TRUE)))
+# Uma tabela por amostra no mesmo arquivo: nesta versão do fixest, etable() falha ao
+# juntar numa só tabela modelos estimados em amostras diferentes.
+iwalk(map(twfe, "estatico"), function(m, k)
+  etable(m, title = paste("TWFE estático — amostra:", k),
+         file = file.path(OUT, "09_twfe_estatico.tex"), replace = (k == "Todas")))
+write_csv(imap_dfr(map(twfe, "estatico"), function(m, k) map_dfr(seq_along(m), function(i) {
+  ct <- coeftable(m[[i]])
+  tibble(amostra = k, desfecho = names(DESFECHOS)[i], efeito = ct["pos", 1], se = ct["pos", 2],
+         p_valor = ct["pos", 4], n_obs = nobs(m[[i]]))
+})), file.path(OUT, "09_twfe_estatico.csv"))
 write_csv(map_dfr(names(twfe), function(k) {
   s <- summary(twfe[[k]]$sunab, agg = "ATT")
   tibble(amostra = k, efeito = coef(s)[["ATT"]], se = se(s)[["ATT"]])

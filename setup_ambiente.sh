@@ -8,7 +8,7 @@ apt-get install -y --no-install-recommends \
   r-base r-base-dev \
   libcurl4-openssl-dev libssl-dev libxml2-dev libfontconfig1-dev libharfbuzz-dev libfribidi-dev \
   libgdal-dev libgeos-dev libproj-dev libudunits2-dev libsqlite3-dev \
-  libarchive-dev p7zip-full cmake
+  libarchive-dev p7zip-full cmake libglpk-dev libgmp-dev libmpfr-dev
 Rscript -e 'options(repos = "https://cloud.r-project.org"); \
   pk <- c("dplyr","tidyr","purrr","readr","stringr","ggplot2","httr2","jsonlite","data.table", \
           "archive","curl","fixest","did","tidysynth","MatchIt","bacondecomp","sf","geobr","spdep", \
