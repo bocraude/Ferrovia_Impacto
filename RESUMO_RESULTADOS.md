@@ -33,6 +33,22 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
    o efeito com todos os controles está concentrado na retomada (0,206 em 2018–2019; 0,311 em
    2018–2023) e é nulo com pareados (0,030 e 0,045). Na FNS-ES não há efeito no PIB em nenhuma fase.
 
+8. **ISS (seção 6, só 2002–2019): efeito grande, consistente e com o formato de uma obra.** Com o
+   ISS real como variável dependente, o Callaway & Sant'Anna dá 0,445 na média conjunta (p < 0,001;
+   cerca de 56%), com 0,428 na FIOL I, 0,478 na FIOL II e 0,443 na FNS-ES, e o teste de pré-tendência
+   não rejeita tendências paralelas em nenhuma (p entre 0,234 e 0,515). Synthetic DiD (0,519; 0,421;
+   0,530), TWFE (0,516; 0,462; 0,568) e Sun & Abraham apontam o mesmo, e a inferência por randomização
+   dá p ≤ 0,002. O efeito acompanha o cronograma: na FIOL I é 0,757 em 2011–2015 (obra) e 0,200 em
+   2016–2019 (ritmo baixo); na FIOL II, 0,376 em 2013–2017 e 0,666 em 2018–2019 (retomada).
+   Leitura: o ISS da construção civil é recolhido no município da obra, então isso mede sobretudo a
+   arrecadação gerada pelo próprio canteiro — um efeito fiscal direto e temporário — e não
+   necessariamente desenvolvimento econômico local, que o PIB não mostra.
+   Ressalvas: a série é o ISS total (não só da construção); muitos municípios têm anos sem declaração
+   (série completa em 8 de 18 tratados da FIOL I, 8 de 11 da FIOL II e 17 de 28 da FNS-ES), e o
+   Synthetic DiD usa apenas esses; na amostra pareada da FIOL II (5 tratados) só o TWFE rodou, com
+   efeito 0,094 (p = 0,674); o HonestDiD só exclui zero com Mbar = 0; e o controle sintético com
+   doadores pareados não roda com anos faltantes.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na
@@ -62,8 +78,10 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
   30.254 pares município-ano, diferença máxima de 0,005% (arredondamento).
 - **Deflator:** deflator do PIB (SIDRA 6784, variável 9811, encadeado, 2020 = 100), em
   `deflator_pib.csv`. `ipca.csv` (SIDRA 1737, índice de dezembro) só seria usado pela etapa 6.
-- **ISS:** Siconfi/DCA 2013–2023 baixado para os 2.161 municípios (20.835 observações); está no
-  painel, mas não entra em nenhuma estimativa. FINBRA 2002–2012 não baixado (manual).
+- **ISS:** série municipal 2002–2023 do Ipeadata (RISSM, origem STN), 46.435 observações para os
+  2.161 municípios, usada como variável dependente na seção 6. Coincide com o Siconfi/DCA baixado
+  antes (valores iguais em pelo menos 99,9% dos casos de 2014 a 2023, exceto 2016, com 95,7%).
+  A análise do ISS foi rodada só para 2002–2019, por decisão do usuário.
 - **População:** 3 controles sem população nos três censos (Barrocas/BA, Ipiranga de Goiás/GO e Lagoa
   Santa/GO) saem dos modelos com covariáveis.
 - **Versões:** R 4.3.3; `HonestDiD` 0.2.6 e `CVXR` 1.0-14 (as versões atuais exigem R ≥ 4.4);
@@ -532,4 +550,161 @@ Mesmo modelo da seção 3, com o efeito anual agregado nas janelas do TWFE (`sdi
 | ln(PIB real per capita) | FIOL I | -0,022 | 0,671 | -0,025 | 0,549 | -0,004 |
 | ln(PIB real per capita) | FIOL II | 0,019 | 0,739 | 0,108 | 0,072 | 0,089 |
 | ln(PIB real per capita) | FNS-ES | 0,037 | 0,106 | 0,022 | 0,397 | -0,016 |
+
+## 6. ISS como variável dependente (2002–2019)
+
+Mesma amostra, datas, covariáveis, pareamento e estimadores da análise do PIB; muda só o desfecho (`rodar_iss.R`).
+ISS municipal do Ipeadata/STN (série RISSM), deflacionado pelo deflator do PIB. Efeitos em pontos de log.
+
+Cobertura do ISS na amostra (`00_cobertura_iss.csv`; série completa = 18 anos com ISS declarado e positivo):
+
+| ferrovia | pool | municípios | série completa | média de anos com ISS |
+|---|---|---|---|---|
+| FIOL I | BA | 18 | 8 | 16,1 |
+| FIOL II | BA | 11 | 8 | 17,6 |
+| FNS-ES | FNS | 28 | 17 | 17,4 |
+| controle | BA | 271 | 99 | 16,6 |
+| controle | FNS | 1571 | 1036 | 17,5 |
+
+Callaway & Sant'Anna (painel incompleto aceito; bootstrap de 199 réplicas):
+
+| desfecho | painel | efeito | efeito (%) | IC 95% | p | p pré-tendência | MDE 80% |
+|---|---|---|---|---|---|---|---|
+| ln(ISS real) | Média conjunta | 0,445 | 56,1 | [0,250; 0,641] | <0,001 | 0,515 | 0,279 |
+| ln(ISS real) | Média sem FIOL II | 0,437 | 54,8 | [0,222; 0,652] | <0,001 | 0,469 | 0,307 |
+| ln(ISS real) | FIOL I | 0,428 | 53,3 | [0,086; 0,769] | 0,014 | 0,493 | 0,487 |
+| ln(ISS real) | FIOL II | 0,478 | 61,4 | [-0,001; 0,958] | 0,051 | 0,234 | 0,685 |
+| ln(ISS real) | FNS-ES | 0,443 | 55,8 | [0,184; 0,703] | <0,001 | 0,281 | 0,370 |
+| ln(ISS real per capita) | Média conjunta | 0,431 | 53,9 | [0,077; 0,786] | 0,017 | 0,945 | 0,506 |
+| ln(ISS real per capita) | Média sem FIOL II | 0,427 | 53,3 | [0,226; 0,629] | <0,001 | 0,757 | 0,288 |
+| ln(ISS real per capita) | FIOL I | 0,438 | 55,0 | [0,076; 0,800] | 0,018 | 0,901 | 0,517 |
+| ln(ISS real per capita) | FIOL II | 0,447 | 56,4 | [-1,047; 1,942] | 0,558 | 0,343 | 2,135 |
+| ln(ISS real per capita) | FNS-ES | 0,421 | 52,3 | [0,161; 0,681] | 0,002 | 0,419 | 0,371 |
+
+Synthetic DiD, SC e DiD (só municípios com série completa de ISS; EP por placebo):
+
+| ferrovia | desfecho | estimador | efeito | EP | IC 95% |
+|---|---|---|---|---|---|
+| FIOL I | ln(ISS real) | SDID | 0,519 | 0,140 | [0,244; 0,794] |
+| FIOL I | ln(ISS real) | SC | 0,887 | 0,179 | [0,535; 1,239] |
+| FIOL I | ln(ISS real) | DiD | 0,619 | 0,146 | [0,332; 0,906] |
+| FIOL I | ln(ISS real per capita) | SDID | 0,545 | 0,133 | [0,285; 0,805] |
+| FIOL I | ln(ISS real per capita) | SC | 0,820 | 0,186 | [0,456; 1,184] |
+| FIOL I | ln(ISS real per capita) | DiD | 0,657 | 0,170 | [0,324; 0,990] |
+| FIOL II | ln(ISS real) | SDID | 0,421 | 0,146 | [0,135; 0,706] |
+| FIOL II | ln(ISS real) | SC | 0,480 | 0,213 | [0,063; 0,897] |
+| FIOL II | ln(ISS real) | DiD | 0,493 | 0,167 | [0,165; 0,821] |
+| FIOL II | ln(ISS real per capita) | SDID | 0,397 | 0,162 | [0,080; 0,714] |
+| FIOL II | ln(ISS real per capita) | SC | 0,487 | 0,201 | [0,093; 0,882] |
+| FIOL II | ln(ISS real per capita) | DiD | 0,465 | 0,170 | [0,132; 0,799] |
+| FNS-ES | ln(ISS real) | SDID | 0,530 | 0,113 | [0,309; 0,751] |
+| FNS-ES | ln(ISS real) | SC | 0,551 | 0,169 | [0,220; 0,881] |
+| FNS-ES | ln(ISS real) | DiD | 0,567 | 0,142 | [0,288; 0,845] |
+| FNS-ES | ln(ISS real per capita) | SDID | 0,504 | 0,103 | [0,302; 0,706] |
+| FNS-ES | ln(ISS real per capita) | SC | 0,535 | 0,137 | [0,266; 0,803] |
+| FNS-ES | ln(ISS real per capita) | DiD | 0,529 | 0,137 | [0,260; 0,799] |
+
+TWFE estático e Sun & Abraham (ATT, ln ISS):
+
+| amostra | desfecho | estimador | efeito | EP | p | n obs. |
+|---|---|---|---|---|---|---|
+| Todas | ln(ISS real) | TWFE | 0,533 | 0,063 | <0,001 | 32966 |
+| Todas | ln(ISS real per capita) | TWFE | 0,512 | 0,065 | <0,001 | 32943 |
+| FIOL I | ln(ISS real) | TWFE | 0,516 | 0,122 | <0,001 | 4776 |
+| FIOL I | ln(ISS real per capita) | TWFE | 0,565 | 0,119 | <0,001 | 4768 |
+| FIOL II | ln(ISS real) | TWFE | 0,462 | 0,105 | <0,001 | 4681 |
+| FIOL II | ln(ISS real per capita) | TWFE | 0,426 | 0,102 | <0,001 | 4673 |
+| FNS-ES | ln(ISS real) | TWFE | 0,568 | 0,091 | <0,001 | 27996 |
+| FNS-ES | ln(ISS real per capita) | TWFE | 0,514 | 0,096 | <0,001 | 27981 |
+| Todas | ln(ISS real) | Sun & Abraham | 0,465 | 0,094 | <0,001 | NA |
+| FIOL I | ln(ISS real) | Sun & Abraham | 0,505 | 0,187 | 0,007 | NA |
+| FIOL II | ln(ISS real) | Sun & Abraham | 0,367 | 0,137 | 0,007 | NA |
+| FNS-ES | ln(ISS real) | Sun & Abraham | 0,475 | 0,133 | <0,001 | NA |
+
+Efeitos por janela (TWFE):
+
+| ferrovia | desfecho | janela | efeito | EP | IC 95% |
+|---|---|---|---|---|---|
+| FIOL I | ln(ISS real) | 2011-2015 obra | 0,757 | 0,156 | [0,452; 1,062] |
+| FIOL I | ln(ISS real) | 2016-2019 ritmo baixo | 0,200 | 0,122 | [-0,039; 0,440] |
+| FIOL I | ln(ISS real per capita) | 2011-2015 obra | 0,802 | 0,155 | [0,499; 1,106] |
+| FIOL I | ln(ISS real per capita) | 2016-2019 ritmo baixo | 0,253 | 0,118 | [0,023; 0,484] |
+| FIOL II | ln(ISS real) | 2013-2017 início lento | 0,376 | 0,096 | [0,187; 0,565] |
+| FIOL II | ln(ISS real) | 2018-2019 retomada | 0,666 | 0,145 | [0,382; 0,950] |
+| FIOL II | ln(ISS real per capita) | 2013-2017 início lento | 0,345 | 0,096 | [0,158; 0,533] |
+| FIOL II | ln(ISS real per capita) | 2018-2019 retomada | 0,616 | 0,139 | [0,344; 0,888] |
+| FNS-ES | ln(ISS real) | 2011-2019 obra Valec | 0,568 | 0,091 | [0,389; 0,746] |
+| FNS-ES | ln(ISS real per capita) | 2011-2019 obra Valec | 0,514 | 0,096 | [0,325; 0,703] |
+
+Synthetic DiD por janela (`DESFECHO=iss Rscript sdid_janelas.R`):
+
+| ferrovia | desfecho | janela | todos: efeito (EP); p; n trat/ctrl | pareados: efeito (EP); p; n trat/ctrl |
+|---|---|---|---|---|
+| FIOL I | ln(ISS real) | 2011-2015 obra | 0,786 (0,133); p = <0,001; n = 8/99 | 0,849 (0,202); p = <0,001; n = 8/16 |
+| FIOL I | ln(ISS real) | 2016-2019 ritmo baixo | 0,185 (0,200); p = 0,356; n = 8/99 | 0,279 (0,327); p = 0,394; n = 8/16 |
+| FIOL I | ln(ISS real) | Total pós-obra | 0,519 (0,141); p = <0,001; n = 8/99 | 0,596 (0,215); p = 0,006; n = 8/16 |
+| FIOL I | ln(ISS real per capita) | 2011-2015 obra | 0,818 (0,136); p = <0,001; n = 8/98 | 0,870 (0,214); p = <0,001; n = 8/16 |
+| FIOL I | ln(ISS real per capita) | 2016-2019 ritmo baixo | 0,205 (0,210); p = 0,330; n = 8/98 | 0,291 (0,311); p = 0,350; n = 8/16 |
+| FIOL I | ln(ISS real per capita) | Total pós-obra | 0,545 (0,149); p = <0,001; n = 8/98 | 0,613 (0,208); p = 0,003; n = 8/16 |
+| FIOL II | ln(ISS real) | 2013-2017 início lento | 0,302 (0,146); p = 0,038; n = 8/99 | NA |
+| FIOL II | ln(ISS real) | 2018-2019 retomada | 0,717 (0,300); p = 0,017; n = 8/99 | NA |
+| FIOL II | ln(ISS real) | Total pós-obra | 0,421 (0,166); p = 0,011; n = 8/99 | NA |
+| FIOL II | ln(ISS real per capita) | 2013-2017 início lento | 0,284 (0,150); p = 0,058; n = 8/98 | NA |
+| FIOL II | ln(ISS real per capita) | 2018-2019 retomada | 0,679 (0,327); p = 0,038; n = 8/98 | NA |
+| FIOL II | ln(ISS real per capita) | Total pós-obra | 0,397 (0,177); p = 0,025; n = 8/98 | NA |
+| FNS-ES | ln(ISS real) | 2011-2019 obra Valec | 0,530 (0,107); p = <0,001; n = 17/1036 | 0,503 (0,126); p = <0,001; n = 17/53 |
+| FNS-ES | ln(ISS real) | Total pós-obra | 0,530 (0,107); p = <0,001; n = 17/1036 | 0,503 (0,126); p = <0,001; n = 17/53 |
+| FNS-ES | ln(ISS real per capita) | 2011-2019 obra Valec | 0,504 (0,110); p = <0,001; n = 17/1036 | 0,476 (0,127); p = <0,001; n = 17/53 |
+| FNS-ES | ln(ISS real per capita) | Total pós-obra | 0,504 (0,110); p = <0,001; n = 17/1036 | 0,476 (0,127); p = <0,001; n = 17/53 |
+
+Inferência por randomização (TWFE) e efeito mínimo detectável por placebo:
+
+| ferrovia | efeito TWFE | p randomização | DP placebo | MDE 80% (%) |
+|---|---|---|---|---|
+| FIOL I | 0,516 | <0,001 | 0,115 | 38,0 |
+| FIOL II | 0,462 | 0,002 | 0,147 | 51,0 |
+| FNS-ES | 0,568 | <0,001 | 0,115 | 38,2 |
+
+HonestDiD (IC robusto do efeito médio pós-obra em ln ISS):
+
+| ferrovia | Mbar | IC robusto |
+|---|---|---|
+| FIOL I | 0 | [0,070; 0,789] |
+| FIOL I | 0.5 | [-1,041; 1,663] |
+| FIOL I | 1 | [-2,315; 2,937] |
+| FIOL I | 1.5 | [-3,596; 3,700] |
+| FIOL I | 2 | [-3,700; 3,700] |
+| FIOL II | 0 | [0,072; 0,890] |
+| FIOL II | 0.5 | [-0,476; 1,505] |
+| FIOL II | 1 | [-1,286; 2,323] |
+| FIOL II | 1.5 | [-2,138; 3,175] |
+| FIOL II | 2 | [-2,989; 4,027] |
+| FNS-ES | 0 | [0,171; 0,715] |
+| FNS-ES | 0.5 | [-0,972; 1,835] |
+| FNS-ES | 1 | [-2,312; 2,799] |
+| FNS-ES | 1.5 | [-2,799; 2,799] |
+| FNS-ES | 2 | [-2,799; 2,799] |
+
+Controles pareados × todos os elegíveis (n = municípios da amostra; o Synthetic DiD usa só os de série completa):
+
+| ferrovia | desfecho | estimador | todos: efeito (EP); p; n trat/ctrl | pareados: efeito (EP); p; n trat/ctrl |
+|---|---|---|---|---|
+| FIOL I | ln(ISS real) | Callaway & Sant'Anna | 0,428 (0,194); p = 0,028; n = 18/271 | 0,487 (0,227); p = 0,032; n = 17/51 |
+| FIOL I | ln(ISS real per capita) | Callaway & Sant'Anna | 0,438 (0,191); p = 0,022; n = 18/271 | 0,501 (0,201); p = 0,013; n = 17/51 |
+| FIOL I | ln(ISS real) | TWFE | 0,516 (0,122); p = <0,001; n = 18/271 | 0,541 (0,139); p = <0,001; n = 17/51 |
+| FIOL I | ln(ISS real per capita) | TWFE | 0,565 (0,119); p = <0,001; n = 18/271 | 0,588 (0,137); p = <0,001; n = 17/51 |
+| FIOL I | ln(ISS real) | Synthetic DiD | 0,519 (0,146); p = <0,001; n = 18/271 | 0,596 (0,217); p = 0,006; n = 17/51 |
+| FIOL I | ln(ISS real per capita) | Synthetic DiD | 0,545 (0,137); p = <0,001; n = 18/271 | 0,613 (0,214); p = 0,004; n = 17/51 |
+| FIOL II | ln(ISS real) | Callaway & Sant'Anna | 0,478 (0,221); p = 0,030; n = 11/271 | NA |
+| FIOL II | ln(ISS real per capita) | Callaway & Sant'Anna | 0,447 (0,219); p = 0,041; n = 11/271 | NA |
+| FIOL II | ln(ISS real) | TWFE | 0,462 (0,105); p = <0,001; n = 11/271 | 0,094 (0,224); p = 0,674; n = 5/15 |
+| FIOL II | ln(ISS real per capita) | TWFE | 0,426 (0,102); p = <0,001; n = 11/271 | 0,094 (0,217); p = 0,666; n = 5/15 |
+| FIOL II | ln(ISS real) | Synthetic DiD | 0,421 (0,170); p = 0,013; n = 11/271 | NA |
+| FIOL II | ln(ISS real per capita) | Synthetic DiD | 0,397 (0,167); p = 0,018; n = 11/271 | NA |
+| FNS-ES | ln(ISS real) | Callaway & Sant'Anna | 0,443 (0,146); p = 0,002; n = 28/1571 | 0,283 (0,149); p = 0,058; n = 28/80 |
+| FNS-ES | ln(ISS real per capita) | Callaway & Sant'Anna | 0,421 (0,141); p = 0,003; n = 28/1571 | 0,254 (0,167); p = 0,129; n = 28/80 |
+| FNS-ES | ln(ISS real) | TWFE | 0,568 (0,091); p = <0,001; n = 28/1571 | 0,540 (0,111); p = <0,001; n = 28/80 |
+| FNS-ES | ln(ISS real per capita) | TWFE | 0,514 (0,096); p = <0,001; n = 28/1571 | 0,502 (0,115); p = <0,001; n = 28/80 |
+| FNS-ES | ln(ISS real) | Synthetic DiD | 0,530 (0,112); p = <0,001; n = 28/1571 | 0,503 (0,136); p = <0,001; n = 28/80 |
+| FNS-ES | ln(ISS real per capita) | Synthetic DiD | 0,504 (0,116); p = <0,001; n = 28/1571 | 0,476 (0,123); p = <0,001; n = 28/80 |
 
