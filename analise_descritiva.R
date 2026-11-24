@@ -81,7 +81,8 @@ mun <- p |> filter(tratado) |> distinct(cod_ibge, nome, uf, trecho = ferrovia, i
   left_join(larg("pibpc", c(2010, 2019)), by = "cod_ibge") |>
   left_join(larg("isspc", c(2010, 2019)), by = "cod_ibge") |>
   left_join(p |> filter(tratado) |> group_by(cod_ibge) |> summarise(anos_com_iss = sum(!is.na(iss_real))), by = "cod_ibge") |>
-  transmute(cod_ibge, municipio = str_to_title(nome) |> str_replace_all(" (De|Do|Da|Dos|Das|D') ", function(x) tolower(x)),
+  transmute(cod_ibge, municipio = str_to_title(nome) |> str_replace_all(" (De|Do|Da|Dos|Das) ", function(x) tolower(x)) |>
+              str_replace_all("D'o", "d'O"),
             uf, trecho, inicio_obra, km_linha = round(km_linha, 1),
             pop_2019, pib_2010_mi = pib_real_2010 / 1e3, pib_2019_mi = pib_real_2019 / 1e3,
             var_pib_pct = 100 * (pib_real_2019 / pib_real_2010 - 1),

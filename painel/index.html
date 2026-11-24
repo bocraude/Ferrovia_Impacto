@@ -380,7 +380,7 @@
     description: 'Número de municípios, km de linha (OpenStreetMap), população e PIB real de 2019 somados por trecho.',
     fn: (municipios) => ['FIOL I', 'FIOL II', 'FNS-ES'].map((t) => {
       const m = municipios.filter((r) => r.trecho === t);
-      const soma = (campo) => m.reduce((a, r) => a + (r[campo] === null || r[campo] === '' ? 0 : +r[campo]), 0);
+      const soma = (campo) => m.reduce((a, r) => a + (Number.isFinite(parseFloat(r[campo])) ? parseFloat(r[campo]) : 0), 0);
       return {trecho: t, municipios: m.length, km_total: Math.round(10 * soma('km_linha')) / 10,
               pop_2019_mil: Math.round(soma('pop_2019') / 1000), pib_2019_bi: Math.round(soma('pib_2019_mi') / 100) / 10};
     }),
@@ -432,7 +432,7 @@
     });
     const tip = el.appendChild(document.createElement('div')); tip.className = 'fv-tip'; tip.hidden = true;
     const todos = (p) => p.series.flatMap((s) => s.valores.flatMap((v) => [v.y, v.lo, v.hi])).filter(Number.isFinite);
-    const dominio = (vals) => { let [a, b] = d3.extent(vals); if (zero) { a = Math.min(a, 0); b = Math.max(b, 0); } const m = (b - a) * 0.06 || 1; return [a - m, b + m]; };
+    const dominio = (vals) => { let [a, b] = d3.extent(vals); if (zero) { a = Math.min(a, 0); b = Math.max(b, 0); } const m = (b - a) * 0.06 || 1; return [a >= 0 ? Math.max(0, a - m) : a - m, b + m]; };
     const comum = eixoComum ? dominio(paineis.flatMap(todos)) : null;
     paineis.forEach((p, i) => {
       const w = Math.max(220, caixas[i].clientWidth), h = 230;
@@ -451,7 +451,8 @@
       g.selectAll('line.g').data(ticks).join('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
         .style('stroke', (d) => (zero && d === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)')).style('stroke-width', 1);
       g.selectAll('text.ty').data(ticks).join('text').attr('x', m.l - 6).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(fmt);
-      const passo = w < 300 ? 6 : 4;
+      const vao = x.domain()[1] - x.domain()[0];
+      const passo = vao <= 10 ? 2 : w < 300 ? 6 : 4;
       const anos = d3.range(Math.ceil(x.domain()[0] / passo) * passo, x.domain()[1] + 1, passo);
       g.selectAll('text.tx').data(anos).join('text').attr('x', (d) => x(d)).attr('y', h - 6).attr('text-anchor', 'middle').text((d) => d);
       if (Number.isFinite(p.vline) && p.vline > x.domain()[0]) {
