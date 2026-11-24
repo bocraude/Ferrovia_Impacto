@@ -31,7 +31,7 @@ escore de propensão. Datas de tratamento por ferrovia: FIOL I e FNS-ES em 2011,
 5c. ISS como variável dependente: `Rscript baixar_iss_ipeadata.R` (ISS municipal 2002–2023, Ipeadata/STN) e
    `Rscript rodar_iss.R` (mesma análise, saídas em `resultados_iss_*`); `DESFECHO=iss Rscript sdid_janelas.R`.
 5d. `Rscript analise_descritiva.R` — exploratória e descritiva por trecho (PIB, PIB per capita, ISS, km por município,
-   linha do tempo e principais resultados) em `resultados_descritiva/`; alimenta o painel (`painel/index.html`).
+   linha do tempo e principais resultados) em `resultados_descritiva/`; alimenta o painel (`painel/index.html`). `python3 painel/gerar_html.py` gera o painel em arquivo único.
 6. `Rscript rais_longa_scm.R` — série longa da RAIS (1995–) e controle sintético longo. É o mais pesado.
 
 ## Regras de trabalho
