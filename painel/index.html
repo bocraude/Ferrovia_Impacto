@@ -1,0 +1,690 @@
+<meta name="dash-one-writer">
+<meta name="dash-form" content="dashboard">
+<style>
+  .fv { display: flex; flex-direction: column; gap: var(--cds-gap-lg); font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+  .fv-title { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+  .fv-lede { margin: 0; max-width: 78ch; line-height: 1.55; }
+  .fv-muted { color: var(--color-fg-muted); }
+  .fv-note { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); line-height: 1.5; margin: 0; max-width: 90ch; }
+  .fv-tabs { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs); border-bottom: 1px solid var(--color-border-line); }
+  .fv-tab { font: inherit; color: var(--color-fg-muted); background: none; border: 0; border-bottom: 2px solid transparent;
+            padding: var(--cds-pad-sm) var(--cds-pad-md); cursor: pointer; margin-bottom: -1px; }
+  .fv-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+  .fv-tab:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+  .fv-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+  .fv-h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; text-wrap: balance; }
+  .fv-h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
+  .fv-block { display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .fv-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--cds-gap-md); }
+  .fv-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius);
+             padding: var(--cds-pad-lg); display: flex; flex-direction: column; gap: var(--cds-gap-sm); min-width: 0; }
+  .fv-card-head { display: flex; align-items: center; gap: var(--cds-gap-xs); font-weight: var(--cds-font-weight-medium); }
+  .fv-sw { width: 10px; height: 10px; border-radius: 2px; display: inline-block; flex: none; }
+  .fv-sw-line { width: 14px; height: 0; border-top: 2px solid; display: inline-block; flex: none; }
+  .fv-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+  .fv-kv { display: grid; grid-template-columns: 1fr auto; gap: 2px var(--cds-gap-md); font-size: var(--cds-font-size-caption); margin: 0; }
+  .fv-kv dt { color: var(--color-fg-muted); } .fv-kv dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+  .fv-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--cds-gap-lg); align-items: start; }
+  .fv-controls { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm) var(--cds-gap-md); align-items: center; font-size: var(--cds-font-size-caption); }
+  .fv-legend { display: flex; flex-wrap: wrap; gap: var(--cds-gap-xs) var(--cds-gap-md); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); align-items: center; }
+  .fv-legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .fv-chart { position: relative; min-height: 240px; min-width: 0; }
+  .fv-panels { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: var(--cds-gap-md); }
+  .fv-panel { min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .fv-panel-title { font-size: var(--cds-font-size-caption); font-weight: var(--cds-font-weight-medium); }
+  .fv-svg { display: block; width: 100%; overflow: visible; }
+  .fv-svg text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); font-family: var(--font-anthropic-sans); }
+  .fv-svg .fv-ink { fill: var(--color-fg); }
+  .fv-tip { position: absolute; pointer-events: none; z-index: 5; background: var(--cds-surface-popover); border: 1px solid var(--cds-border);
+            box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 6px 8px; font-size: var(--cds-font-size-caption);
+            line-height: 1.45; max-width: 260px; font-variant-numeric: tabular-nums; }
+  .fv-tip b { font-weight: var(--cds-font-weight-medium); }
+  .fv-scroll { overflow-x: auto; }
+  .fv-table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+  .fv-table th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: 6px 10px 6px 0;
+                 border-bottom: 1px solid var(--color-border-line); white-space: nowrap; vertical-align: bottom; }
+  .fv-table td { padding: 5px 10px 5px 0; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+  .fv-table .fv-r { text-align: right; }
+  .fv-table .fv-grp td { font-weight: var(--cds-font-weight-medium); padding-top: 12px; }
+  .fv-bar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 6px; }
+  .fv-list { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--cds-gap-xs); max-width: 90ch; line-height: 1.55; }
+  .fv-num { font-variant-numeric: tabular-nums; font-weight: var(--cds-font-weight-medium); }
+  .fv-pill { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--color-border-line); font-size: var(--cds-font-size-caption); }
+  @media print { .fv-tabs { display: none; } .fv-page { break-before: page; } .fv-page:first-of-type { break-before: auto; } }
+</style>
+
+<div class="fv">
+  <header class="fv-block" id="cabecalho">
+    <h1 class="fv-title">Ferrovias FIOL e FNS-ES: municípios, obras e resultados</h1>
+    <p class="fv-lede">De 2010 a 2019, o ISS real per capita mediano variou
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_isspc" data-where="grupo=FIOL I" data-fmt="sinal">—</b>% nos municípios da FIOL I,
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_isspc" data-where="grupo=FIOL II" data-fmt="sinal">—</b>% nos da FIOL II e
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_isspc" data-where="grupo=FNS-ES" data-fmt="sinal">—</b>% nos da FNS-ES, contra
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_isspc" data-where="grupo=Controles BA" data-fmt="sinal">—</b>% nos controles da Bahia e
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_isspc" data-where="grupo=Controles GO-MG-SP" data-fmt="sinal">—</b>% nos de Goiás, Minas e São Paulo.
+      No mesmo período, o PIB real per capita mediano variou
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_pibpc" data-where="grupo=FIOL I" data-fmt="sinal">—</b>%,
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_pibpc" data-where="grupo=FIOL II" data-fmt="sinal">—</b>% e
+      <b class="fv-num" data-draw="val" data-source="variacoes" data-field="var_pibpc" data-where="grupo=FNS-ES" data-fmt="sinal">—</b>% nos três trechos.</p>
+    <p class="fv-note">Valores em R$ de 2020 (deflator do PIB). Tratados: municípios interceptados, pela lista da dissertação. Controles: municípios do mesmo conjunto de estados a pelo menos três anéis de vizinhança do traçado.</p>
+  </header>
+
+  <nav class="fv-tabs" role="tablist" aria-label="Seções" id="abas">
+    <button class="fv-tab" role="tab" data-tab="trechos" aria-selected="true" id="aba-trechos">Trechos</button>
+    <button class="fv-tab" role="tab" data-tab="exploratoria" aria-selected="false" id="aba-exploratoria">PIB e ISS</button>
+    <button class="fv-tab" role="tab" data-tab="km-municipio" aria-selected="false" id="aba-km">Km por município</button>
+    <button class="fv-tab" role="tab" data-tab="linha-do-tempo" aria-selected="false" id="aba-linha">Linha do tempo</button>
+    <button class="fv-tab" role="tab" data-tab="principais-resultados" aria-selected="false" id="aba-resultados">Resultados</button>
+  </nav>
+
+  <!-- ============================ TRECHOS ============================ -->
+  <section class="fv-page" id="trechos" data-page>
+    <div class="fv-cards" id="cartoes-trechos">
+      <div class="fv-card" id="cartao-fiol1">
+        <div class="fv-card-head"><span class="fv-sw" data-cor="0"></span>FIOL I <span class="fv-muted">· Bahia · obra desde 2011</span></div>
+        <div><span class="fv-big" data-draw="val" data-source="trechos" data-field="municipios" data-where="trecho=FIOL I" data-fmt="int">—</span> municípios</div>
+        <dl class="fv-kv">
+          <dt>Linha nos municípios (OSM)</dt><dd><span data-draw="val" data-source="trechos" data-field="km_total" data-where="trecho=FIOL I" data-fmt="dec1">—</span> km</dd>
+          <dt>População em 2019</dt><dd><span data-draw="val" data-source="trechos" data-field="pop_2019_mil" data-where="trecho=FIOL I" data-fmt="int">—</span> mil</dd>
+          <dt>PIB real em 2019</dt><dd>R$ <span data-draw="val" data-source="trechos" data-field="pib_2019_bi" data-where="trecho=FIOL I" data-fmt="dec1">—</span> bi</dd>
+        </dl>
+      </div>
+      <div class="fv-card" id="cartao-fiol2">
+        <div class="fv-card-head"><span class="fv-sw" data-cor="1"></span>FIOL II <span class="fv-muted">· Bahia · obra desde 2013</span></div>
+        <div><span class="fv-big" data-draw="val" data-source="trechos" data-field="municipios" data-where="trecho=FIOL II" data-fmt="int">—</span> municípios</div>
+        <dl class="fv-kv">
+          <dt>Linha nos municípios (OSM)</dt><dd><span data-draw="val" data-source="trechos" data-field="km_total" data-where="trecho=FIOL II" data-fmt="dec1">—</span> km</dd>
+          <dt>População em 2019</dt><dd><span data-draw="val" data-source="trechos" data-field="pop_2019_mil" data-where="trecho=FIOL II" data-fmt="int">—</span> mil</dd>
+          <dt>PIB real em 2019</dt><dd>R$ <span data-draw="val" data-source="trechos" data-field="pib_2019_bi" data-where="trecho=FIOL II" data-fmt="dec1">—</span> bi</dd>
+        </dl>
+      </div>
+      <div class="fv-card" id="cartao-fns">
+        <div class="fv-card-head"><span class="fv-sw" data-cor="2"></span>FNS-ES <span class="fv-muted">· GO, MG e SP · obra desde 2011</span></div>
+        <div><span class="fv-big" data-draw="val" data-source="trechos" data-field="municipios" data-where="trecho=FNS-ES" data-fmt="int">—</span> municípios</div>
+        <dl class="fv-kv">
+          <dt>Linha nos municípios (OSM)</dt><dd><span data-draw="val" data-source="trechos" data-field="km_total" data-where="trecho=FNS-ES" data-fmt="dec1">—</span> km</dd>
+          <dt>População em 2019</dt><dd><span data-draw="val" data-source="trechos" data-field="pop_2019_mil" data-where="trecho=FNS-ES" data-fmt="int">—</span> mil</dd>
+          <dt>PIB real em 2019</dt><dd>R$ <span data-draw="val" data-source="trechos" data-field="pib_2019_bi" data-where="trecho=FNS-ES" data-fmt="dec1">—</span> bi</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="fv-two">
+      <div class="fv-block" id="bloco-mapa">
+        <h2 class="fv-h2">Onde ficam os municípios de cada trecho</h2>
+        <div class="fv-legend">
+          <span><i class="fv-sw" data-cor="0"></i>FIOL I</span><span><i class="fv-sw" data-cor="1"></i>FIOL II</span><span><i class="fv-sw" data-cor="2"></i>FNS-ES</span>
+          <span><i class="fv-sw-line" style="border-color: var(--color-fg)"></i>Linha férrea (OpenStreetMap)</span>
+        </div>
+        <div class="fv-chart" style="min-height: 360px" data-draw="mapa" data-source="mapa" id="mapa-trechos">—</div>
+        <p class="fv-note">Contornos simplificados da malha municipal de 2020. A linha inclui o trecho da Norte-Sul ao norte de Ouro Verde de Goiás, que fica fora do estudo.</p>
+      </div>
+      <div class="fv-block" id="bloco-leitura">
+        <h2 class="fv-h2">Como ler este painel</h2>
+        <ul class="fv-list">
+          <li><b>Trechos.</b> A FIOL I vai de Ilhéus a Caetité; a FIOL II, de Caetité a Barreiras; a FNS-ES (Extensão Sul da Norte-Sul), de Ouro Verde de Goiás a Estrela d'Oeste.</li>
+          <li><b>Caetité</b> está nas duas FIOL e foi contado na FIOL I, por isso a FIOL II aparece com 11 municípios e não 12.</li>
+          <li><b>PIB e ISS</b> compara cada trecho com os controles elegíveis do mesmo conjunto de estados. É descrição, sem ajuste estatístico.</li>
+          <li><b>Km por município</b> usa o traçado do OpenStreetMap. Ilhéus, Populina, Turmalina e Cachoeira Alta estão na lista da dissertação, mas o traçado do OSM não os cruza.</li>
+          <li><b>Resultados</b> reúne as estimativas de 2002 a 2019. A RAIS não pôde ser baixada, então não há resultado de emprego.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ PIB E ISS ============================ -->
+  <section class="fv-page" id="exploratoria" data-page hidden>
+    <div class="fv-block" id="bloco-series">
+      <h2 class="fv-h2">Cada trecho comparado aos controles do seu conjunto de estados</h2>
+      <div class="fv-controls">
+        <label for="fv-metrica">Indicador</label>
+        <select class="dash-select" id="fv-metrica" data-redraw="series">
+          <option value="isspc_mediana">ISS real per capita mediano (R$)</option>
+          <option value="isspc_idx">ISS real per capita mediano (2010 = 100)</option>
+          <option value="pibpc_mediana">PIB real per capita mediano (R$)</option>
+          <option value="pibpc_idx">PIB real per capita mediano (2010 = 100)</option>
+          <option value="pib_idx">PIB real total (2010 = 100)</option>
+          <option value="pib_real_bi">PIB real total (R$ bilhões)</option>
+        </select>
+        <span class="fv-legend">
+          <span><i class="fv-sw-line" data-cor-borda="0"></i>Municípios do trecho</span>
+          <span><i class="fv-sw-line" style="border-color: var(--cds-chart-muted)"></i>Controles elegíveis</span>
+          <span><i class="fv-sw-line" style="border-color: var(--cds-chart-reference); border-top-style: dashed"></i>Início da obra</span>
+        </span>
+      </div>
+      <div class="fv-chart" data-draw="series" data-source="series" id="grafico-series">—</div>
+      <p class="fv-note">Mediana entre os municípios de cada grupo. No ISS entram só os municípios que declararam naquele ano. Os valores em reais têm eixo próprio em cada quadro; os índices usam o mesmo eixo nos três.</p>
+    </div>
+
+    <div class="fv-block" id="bloco-descritiva">
+      <h2 class="fv-h2">Perfil dos grupos em 2002, 2010 e 2019</h2>
+      <div class="fv-scroll">
+        <table class="fv-table" data-source="descritiva" data-row-key="chave" id="tabela-descritiva">
+          <thead><tr>
+            <th data-field="grupo">Grupo</th><th data-field="ano">Ano</th>
+            <th class="fv-r" data-field="municipios">Municípios</th>
+            <th class="fv-r" data-field="pop_mil">População (mil)</th>
+            <th class="fv-r" data-field="pib_real_bi">PIB real (R$ bi)</th>
+            <th class="fv-r" data-field="pibpc_mediana">PIB pc mediano (R$)</th>
+            <th class="fv-r" data-field="pibpc_media">PIB pc médio (R$)</th>
+            <th class="fv-r" data-field="part_agro">Agro (% VAB)</th>
+            <th class="fv-r" data-field="part_ind">Indústria (%)</th>
+            <th class="fv-r" data-field="part_serv">Serviços (%)</th>
+            <th class="fv-r" data-field="part_apu">Adm. pública (%)</th>
+            <th class="fv-r" data-field="isspc_mediana">ISS pc mediano (R$)</th>
+            <th class="fv-r" data-field="municipios_com_iss">Com ISS declarado</th>
+          </tr></thead>
+          <tbody data-draw="descritiva"></tbody>
+        </table>
+      </div>
+      <p class="fv-note">Participações no valor adicionado bruto (VAB) somado do grupo. Serviços não inclui administração pública.</p>
+    </div>
+  </section>
+
+  <!-- ============================ KM POR MUNICÍPIO ============================ -->
+  <section class="fv-page" id="km-municipio" data-page hidden>
+    <div class="fv-block" id="bloco-km">
+      <h2 class="fv-h2">Quilômetros de linha em cada município</h2>
+      <div class="fv-controls">
+        <label for="fv-trecho">Trecho</label>
+        <select class="dash-select" id="fv-trecho" data-redraw="municipios">
+          <option value="">Todos os trechos</option>
+          <option value="FIOL I">FIOL I</option>
+          <option value="FIOL II">FIOL II</option>
+          <option value="FNS-ES">FNS-ES</option>
+        </select>
+        <label for="fv-ordem">Ordenar por</label>
+        <select class="dash-select" id="fv-ordem" data-redraw="municipios">
+          <option value="km_linha">Km de linha</option>
+          <option value="pib_2019_mi">PIB real em 2019</option>
+          <option value="var_pib_pct">Variação do PIB real, 2010–2019</option>
+          <option value="isspc_2019">ISS per capita em 2019</option>
+          <option value="var_isspc_pct">Variação do ISS per capita, 2010–2019</option>
+          <option value="pop_2019">População</option>
+        </select>
+      </div>
+      <div class="fv-scroll">
+        <table class="fv-table" data-source="municipios" data-row-key="cod_ibge" id="tabela-municipios">
+          <thead><tr>
+            <th data-field="municipio">Município</th><th data-field="uf">UF</th><th data-field="trecho">Trecho</th>
+            <th data-field="km_linha">Km de linha</th>
+            <th class="fv-r" data-field="pop_2019">População 2019</th>
+            <th class="fv-r" data-field="pib_2019_mi">PIB real 2019 (R$ mi)</th>
+            <th class="fv-r" data-field="var_pib_pct">PIB real 2010–19 (%)</th>
+            <th class="fv-r" data-field="pibpc_2019">PIB pc 2019 (R$)</th>
+            <th class="fv-r" data-field="isspc_2019">ISS pc 2019 (R$)</th>
+            <th class="fv-r" data-field="var_isspc_pct">ISS pc 2010–19 (%)</th>
+            <th class="fv-r" data-field="anos_com_iss">Anos com ISS</th>
+            <th data-field="soja_pre_obra">Soja antes da obra</th>
+            <th data-field="com_par_psm">Com par no pareamento</th>
+          </tr></thead>
+          <tbody data-draw="municipios"></tbody>
+        </table>
+      </div>
+      <p class="fv-note">Km medidos sobre o traçado do OpenStreetMap dentro dos limites do município. "Sem linha no OSM" marca os quatro municípios da lista da dissertação que o traçado não cruza. Anos com ISS: de 22 possíveis (2002–2023).</p>
+    </div>
+  </section>
+
+  <!-- ============================ LINHA DO TEMPO ============================ -->
+  <section class="fv-page" id="linha-do-tempo" data-page hidden>
+    <div class="fv-block" id="bloco-gantt">
+      <h2 class="fv-h2">Fases da obra em cada ferrovia</h2>
+      <div class="fv-chart" style="min-height: 190px" data-draw="gantt" data-source="linha" id="grafico-fases">—</div>
+      <p class="fv-note">As fases são as janelas usadas nos modelos, definidas no script de análise a partir do cronograma das obras: início em 2011 na FIOL I e na FNS-ES (primeiro ano com obra física) e em 2013 na FIOL II (licença dos lotes 5 e 5A). O documento com a cronologia detalhada, lote a lote, não fazia parte do material recebido.</p>
+    </div>
+    <div class="fv-block" id="bloco-iss-fases">
+      <h2 class="fv-h2">O ISS acompanha as fases: efeito estimado ano a ano</h2>
+      <div class="fv-legend">
+        <span><i class="fv-sw-line" data-cor-borda="0"></i>Efeito no ln do ISS real (Synthetic DiD, todos os controles)</span>
+        <span><i class="fv-sw" style="background: var(--cds-chart-muted); opacity: .35"></i>Intervalo de 95%</span>
+      </div>
+      <div class="fv-chart" data-draw="efeito-iss" data-source="sdid" id="grafico-iss-fases">—</div>
+      <p class="fv-note">Efeito em pontos de log: 0,7 equivale a cerca do dobro da arrecadação. Usa só os municípios com ISS declarado em todos os anos de 2002 a 2019.</p>
+    </div>
+    <div class="fv-block" id="bloco-tabela-fases">
+      <h2 class="fv-h2">Fases e anos</h2>
+      <div class="fv-scroll">
+        <table class="fv-table" data-source="linha" data-row-key="chave" id="tabela-fases">
+          <thead><tr><th data-field="ferrovia">Ferrovia</th><th data-field="fase">Fase</th><th class="fv-r" data-field="inicio">Início</th><th class="fv-r" data-field="fim">Fim</th></tr></thead>
+          <tbody data-draw="fases"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================ RESULTADOS ============================ -->
+  <section class="fv-page" id="principais-resultados" data-page hidden>
+    <div class="fv-block" id="bloco-conclusoes">
+      <h2 class="fv-h2">O que os modelos mostram, de 2002 a 2019</h2>
+      <ul class="fv-list">
+        <li><b>ISS: efeito grande e consistente.</b> Na média das três ferrovias, o Callaway &amp; Sant'Anna estima
+          <span class="fv-num" data-draw="val" data-source="cs" data-field="efeito_pct" data-where="chave=ISS real | Média conjunta" data-fmt="sinal">—</span>% de ISS real
+          (p = <span class="fv-num" data-draw="val" data-source="cs" data-field="p_valor" data-where="chave=ISS real | Média conjunta" data-fmt="p">—</span>),
+          sem rejeitar tendências paralelas antes da obra (p = <span class="fv-num" data-draw="val" data-source="cs" data-field="p_pretendencia" data-where="chave=ISS real | Média conjunta" data-fmt="p">—</span>).
+          Synthetic DiD e TWFE concordam, e o efeito se concentra nas fases de obra.</li>
+        <li><b>PIB: sem efeito robusto.</b> A média conjunta é de
+          <span class="fv-num" data-draw="val" data-source="cs" data-field="efeito_pct" data-where="chave=PIB real | Média conjunta" data-fmt="sinal">—</span>% no PIB real
+          (p = <span class="fv-num" data-draw="val" data-source="cs" data-field="p_valor" data-where="chave=PIB real | Média conjunta" data-fmt="p">—</span>),
+          e o teste de pré-tendência rejeita tendências paralelas (p = <span class="fv-num" data-draw="val" data-source="cs" data-field="p_pretendencia" data-where="chave=PIB real | Média conjunta" data-fmt="p">—</span>).</li>
+        <li><b>Leitura.</b> O ISS da construção é recolhido no município da obra. O que aparece é a arrecadação gerada pelo canteiro, que some quando a obra perde ritmo; não há sinal de mudança duradoura na economia local medida pelo PIB.</li>
+        <li><b>FIOL II pede cautela.</b> Seis dos 11 municípios são produtores de soja do oeste baiano e nenhum controle da Bahia tinha soja antes da obra. Com controles pareados sobram 5 tratados e os efeitos somem.</li>
+      </ul>
+    </div>
+
+    <div class="fv-block" id="bloco-floresta">
+      <h2 class="fv-h2">Efeito médio depois do início da obra, por estimador</h2>
+      <div class="fv-controls">
+        <label for="fv-desfecho">Variável</label>
+        <select class="dash-select" id="fv-desfecho" data-redraw="floresta efeito-anual">
+          <option value="ISS real">ISS real</option>
+          <option value="ISS real per capita">ISS real per capita</option>
+          <option value="PIB real">PIB real</option>
+          <option value="PIB real per capita">PIB real per capita</option>
+        </select>
+        <span class="fv-legend">
+          <span><i class="fv-sw" style="background: var(--cds-chart-muted)"></i>Todos os controles elegíveis</span>
+          <span><i class="fv-sw" data-cor="0"></i>Controles pareados (escore de propensão)</span>
+        </span>
+      </div>
+      <div class="fv-chart" data-draw="floresta" data-source="resultados" id="grafico-estimadores">—</div>
+      <p class="fv-note">Pontos de log com intervalo de 95%; 0,10 equivale a cerca de 10,5%. Na FIOL II pareada, com ISS, só o TWFE pôde ser estimado.</p>
+    </div>
+
+    <div class="fv-block" id="bloco-anual">
+      <h2 class="fv-h2">Efeito ano a ano (Synthetic DiD, todos os controles)</h2>
+      <div class="fv-chart" data-draw="efeito-anual" data-source="sdid" id="grafico-anual">—</div>
+    </div>
+
+    <div class="fv-block" id="bloco-cs">
+      <h2 class="fv-h2">Callaway &amp; Sant'Anna: efeito, pré-tendência e efeito mínimo detectável</h2>
+      <div class="fv-scroll">
+        <table class="fv-table" data-source="cs" data-row-key="chave" id="tabela-cs">
+          <thead><tr>
+            <th data-field="desfecho">Variável</th><th data-field="painel">Painel</th>
+            <th class="fv-r" data-field="efeito">Efeito (log)</th><th class="fv-r" data-field="efeito_pct">Efeito (%)</th>
+            <th class="fv-r" data-field="ic_inf">IC 95% inf.</th><th class="fv-r" data-field="ic_sup">IC 95% sup.</th>
+            <th class="fv-r" data-field="p_valor">p</th><th class="fv-r" data-field="p_pretendencia">p pré-tendência</th>
+            <th class="fv-r" data-field="mde_80">Efeito mín. detectável (log)</th>
+          </tr></thead>
+          <tbody data-draw="cs"></tbody>
+        </table>
+      </div>
+      <p class="fv-note">p pré-tendência baixo indica que tratados e controles já divergiam antes da obra. Efeito mínimo detectável: menor efeito que o desenho detectaria com 80% de poder.</p>
+    </div>
+
+    <div class="fv-block" id="bloco-janelas">
+      <h2 class="fv-h2">Efeito por fase da obra</h2>
+      <div class="fv-scroll">
+        <table class="fv-table" data-source="janelas" data-row-key="chave" id="tabela-janelas">
+          <thead><tr>
+            <th data-field="desfecho">Variável</th><th data-field="ferrovia">Ferrovia</th><th data-field="janela">Fase</th>
+            <th data-field="estimador">Estimador</th>
+            <th class="fv-r" data-field="efeito">Efeito (log)</th><th class="fv-r" data-field="ic_inf">IC 95% inf.</th>
+            <th class="fv-r" data-field="ic_sup">IC 95% sup.</th><th class="fv-r" data-field="p_valor">p</th>
+          </tr></thead>
+          <tbody data-draw="janelas"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="fv-block" id="bloco-ressalvas">
+      <h2 class="fv-h2">Ressalvas</h2>
+      <ul class="fv-list">
+        <li>Emprego não foi analisado: a RAIS só é distribuída por FTP, que não pôde ser acessado.</li>
+        <li>ISS com anos sem declaração: o Synthetic DiD usa só os municípios com série completa; Callaway &amp; Sant'Anna e TWFE usam todos.</li>
+        <li>O ISS é o total do município, não só o da construção.</li>
+        <li>O controle sintético com todos os doadores não foi executado; ficou a versão com doadores pareados, que mede o PIB somado do trecho.</li>
+        <li>No Callaway &amp; Sant'Anna da Bahia, a covariável de soja saiu por não variar entre os controles.</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const BR = d3.formatLocale({decimal: ',', thousands: '.', grouping: [3], currency: ['R$ ', '']});
+  const F = {
+    int: BR.format(',.0f'), dec1: BR.format(',.1f'), dec2: BR.format(',.2f'), dec3: BR.format(',.3f'),
+    sinal: (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + BR.format(',.0f')(Math.abs(v)),
+    sinal1: (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + BR.format(',.1f')(Math.abs(v)),
+    ef: (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + BR.format(',.3f')(Math.abs(v)),
+    p: (v) => (v < 0.001 ? '<0,001' : BR.format(',.3f')(v)),
+  };
+  const num = (x) => (x === null || x === undefined || x === '' || x === 'NA' ? NaN : +x);
+  const ok = (id) => { const s = dash.data(id); return s.status === 'ok' ? s.data : null; };
+  const TRECHOS = ['FIOL I', 'FIOL II', 'FNS-ES'];
+  const cor = (t) => dash.colors[Math.max(0, TRECHOS.indexOf(t))];
+  const CTRL = {'FIOL I': 'Controles BA', 'FIOL II': 'Controles BA', 'FNS-ES': 'Controles GO-MG-SP'};
+  const INICIO = {'FIOL I': 2011, 'FIOL II': 2013, 'FNS-ES': 2011};
+  window.fvLib = {BR, F, num, ok, TRECHOS, cor, CTRL, INICIO};
+
+  // cores das legendas e dos cartões (só estilo)
+  document.querySelectorAll('.fv [data-cor]').forEach((e) => { e.style.background = dash.colors[+e.dataset.cor]; });
+  document.querySelectorAll('.fv [data-cor-borda]').forEach((e) => { e.style.borderColor = dash.colors[+e.dataset.corBorda]; });
+
+  // valores derivados, declarados uma vez
+  dash.calc('variacoes', {
+    inputs: ['series'], title: 'Variação 2010–2019 por grupo',
+    description: 'Variação percentual, de 2010 a 2019, do ISS real per capita mediano, do PIB real per capita mediano e do PIB real total de cada grupo.',
+    fn: (series) => {
+      const grupos = [...new Set(series.map((r) => r.grupo))];
+      return grupos.map((g) => {
+        const em = (ano, campo) => +series.find((r) => r.grupo === g && +r.ano === ano)[campo];
+        const v = (campo) => Math.round(100 * (em(2019, campo) / em(2010, campo) - 1));
+        return {grupo: g, var_isspc: v('isspc_mediana'), var_pibpc: v('pibpc_mediana'), var_pib: v('pib_real_bi')};
+      });
+    },
+  });
+  dash.calc('trechos', {
+    inputs: ['municipios'], title: 'Totais por trecho',
+    description: 'Número de municípios, km de linha (OpenStreetMap), população e PIB real de 2019 somados por trecho.',
+    fn: (municipios) => ['FIOL I', 'FIOL II', 'FNS-ES'].map((t) => {
+      const m = municipios.filter((r) => r.trecho === t);
+      const soma = (campo) => m.reduce((a, r) => a + (r[campo] === null || r[campo] === '' ? 0 : +r[campo]), 0);
+      return {trecho: t, municipios: m.length, km_total: Math.round(10 * soma('km_linha')) / 10,
+              pop_2019_mil: Math.round(soma('pop_2019') / 1000), pib_2019_bi: Math.round(soma('pib_2019_mi') / 100) / 10};
+    }),
+  });
+
+  // um valor de uma linha de um conjunto de dados
+  dash.draw('val', (el) => {
+    const rows = ok(el.dataset.source);
+    if (!rows) { el.textContent = '—'; return; }
+    const [k, v] = el.dataset.where.split('=');
+    const r = rows.find((x) => String(x[k]) === v);
+    const x = r ? num(r[el.dataset.field]) : NaN;
+    el.textContent = Number.isFinite(x) ? F[el.dataset.fmt](x) : '—';
+  });
+
+  // abas
+  const paginas = [...document.querySelectorAll('.fv [data-page]')];
+  const abas = [...document.querySelectorAll('.fv .fv-tab')];
+  const abrir = (id, link) => {
+    if (!paginas.some((p) => p.id === id)) id = 'trechos';
+    paginas.forEach((p) => { p.hidden = p.id !== id; });
+    abas.forEach((a) => { a.setAttribute('aria-selected', String(a.dataset.tab === id)); a.tabIndex = a.dataset.tab === id ? 0 : -1; });
+    if (link) dash.setLink(id);
+  };
+  abas.forEach((a) => a.addEventListener('click', () => abrir(a.dataset.tab, true)));
+  abrir((location.hash || '').replace('#', '') || 'trechos', false);
+  let antes = null;
+  window.addEventListener('beforeprint', () => { if (!antes) { antes = paginas.filter((p) => !p.hidden).map((p) => p.id)[0]; paginas.forEach((p) => { p.hidden = false; }); } });
+  window.addEventListener('afterprint', () => { if (antes) { abrir(antes, false); antes = null; } });
+
+  // seletores que só redesenham
+  document.querySelectorAll('.fv select[data-redraw]').forEach((s) => s.addEventListener('change', () => s.dataset.redraw.split(' ').forEach((n) => dash.draw(n))));
+})();
+</script>
+
+<script>
+// ---------- gráficos de linha em quadros (um por trecho) ----------
+(() => {
+  const {BR, F, num, ok, TRECHOS, cor, CTRL, INICIO} = window.fvLib;
+
+  // paineis: [{titulo, vline, series: [{nome, cor, valores: [{x, y, lo, hi}]}]}]
+  const quadros = (el, paineis, {fmt, eixoComum, zero, faixa}) => {
+    el.replaceChildren();
+    const grade = el.appendChild(document.createElement('div')); grade.className = 'fv-panels';
+    const caixas = paineis.map((p) => {
+      const c = grade.appendChild(document.createElement('div')); c.className = 'fv-panel';
+      const t = c.appendChild(document.createElement('div')); t.className = 'fv-panel-title'; t.textContent = p.titulo;
+      return c;
+    });
+    const tip = el.appendChild(document.createElement('div')); tip.className = 'fv-tip'; tip.hidden = true;
+    const todos = (p) => p.series.flatMap((s) => s.valores.flatMap((v) => [v.y, v.lo, v.hi])).filter(Number.isFinite);
+    const dominio = (vals) => { let [a, b] = d3.extent(vals); if (zero) { a = Math.min(a, 0); b = Math.max(b, 0); } const m = (b - a) * 0.06 || 1; return [a - m, b + m]; };
+    const comum = eixoComum ? dominio(paineis.flatMap(todos)) : null;
+    paineis.forEach((p, i) => {
+      const w = Math.max(220, caixas[i].clientWidth), h = 230;
+      const svg = d3.select(caixas[i]).append('svg').attr('class', 'fv-svg').attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img')
+        .attr('aria-label', `${p.titulo}: ${p.series.map((s) => s.nome).join(' e ')} por ano`);
+      const xs = p.series.flatMap((s) => s.valores.map((v) => v.x));
+      const y = d3.scaleLinear().domain(comum || dominio(todos(p))).nice(5);
+      const ticks = y.ticks(5);
+      // margem esquerda medida no rótulo mais largo
+      const sonda = svg.append('text').text(ticks.map(fmt).sort((a, b) => b.length - a.length)[0]);
+      const ml = Math.ceil(sonda.node().getComputedTextLength()) + 10; sonda.remove();
+      const m = {t: 8, r: 12, b: 22, l: ml};
+      const x = d3.scaleLinear().domain(d3.extent(xs)).range([m.l, w - m.r]);
+      y.range([h - m.b, m.t]);
+      const g = svg.append('g');
+      g.selectAll('line.g').data(ticks).join('line').attr('x1', m.l).attr('x2', w - m.r).attr('y1', (d) => y(d)).attr('y2', (d) => y(d))
+        .style('stroke', (d) => (zero && d === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)')).style('stroke-width', 1);
+      g.selectAll('text.ty').data(ticks).join('text').attr('x', m.l - 6).attr('y', (d) => y(d)).attr('dy', '0.32em').attr('text-anchor', 'end').text(fmt);
+      const passo = w < 300 ? 6 : 4;
+      const anos = d3.range(Math.ceil(x.domain()[0] / passo) * passo, x.domain()[1] + 1, passo);
+      g.selectAll('text.tx').data(anos).join('text').attr('x', (d) => x(d)).attr('y', h - 6).attr('text-anchor', 'middle').text((d) => d);
+      if (Number.isFinite(p.vline) && p.vline > x.domain()[0]) {
+        g.append('line').attr('x1', x(p.vline - 0.5)).attr('x2', x(p.vline - 0.5)).attr('y1', m.t).attr('y2', h - m.b)
+          .style('stroke', 'var(--cds-chart-reference)').style('stroke-dasharray', '4 3').style('stroke-width', 1);
+      }
+      p.series.forEach((s) => {
+        const pts = s.valores.filter((v) => Number.isFinite(v.y));
+        if (faixa && pts.some((v) => Number.isFinite(v.lo))) {
+          g.append('path').attr('d', d3.area().x((v) => x(v.x)).y0((v) => y(v.lo)).y1((v) => y(v.hi))(pts))
+            .style('fill', 'var(--cds-chart-muted)').style('opacity', 0.25).style('stroke', 'none');
+        }
+        g.append('path').attr('d', d3.line().x((v) => x(v.x)).y((v) => y(v.y))(pts)).style('fill', 'none').style('stroke', s.cor).style('stroke-width', 2)
+          .style('stroke-linejoin', 'round');
+        const fim = pts[pts.length - 1];
+        if (fim) g.append('circle').attr('cx', x(fim.x)).attr('cy', y(fim.y)).attr('r', 3.5).style('fill', s.cor).style('stroke', 'var(--color-bg)').style('stroke-width', 2);
+      });
+      const cursor = g.append('line').attr('y1', m.t).attr('y2', h - m.b).style('stroke', 'var(--cds-chart-axis)').style('stroke-width', 1).attr('visibility', 'hidden');
+      svg.append('rect').attr('x', m.l).attr('y', m.t).attr('width', Math.max(0, w - m.l - m.r)).attr('height', h - m.t - m.b).style('fill', 'transparent')
+        .on('mousemove touchstart touchmove', (ev) => {
+          const [px] = d3.pointer(ev.touches ? ev.touches[0] : ev, svg.node());
+          const ano = Math.round(x.invert(px * (w / svg.node().clientWidth)));
+          cursor.attr('x1', x(ano)).attr('x2', x(ano)).attr('visibility', 'visible');
+          tip.replaceChildren();
+          const b = tip.appendChild(document.createElement('b')); b.textContent = `${p.titulo} · ${ano}`;
+          p.series.forEach((s) => {
+            const v = s.valores.find((q) => q.x === ano); if (!v || !Number.isFinite(v.y)) return;
+            const l = tip.appendChild(document.createElement('div'));
+            l.textContent = `${s.nome}: ${fmt(v.y)}` + (faixa && Number.isFinite(v.lo) ? ` (${fmt(v.lo)} a ${fmt(v.hi)})` : '');
+          });
+          tip.hidden = false;
+          const caixa = el.getBoundingClientRect(), r = svg.node().getBoundingClientRect();
+          const esq = r.left - caixa.left + x(ano) * (r.width / w);
+          tip.style.left = Math.min(Math.max(0, esq + 10), Math.max(0, el.clientWidth - tip.offsetWidth)) + 'px';
+          tip.style.top = (r.top - caixa.top + 6) + 'px';
+        })
+        .on('mouseleave touchend', () => { tip.hidden = true; cursor.attr('visibility', 'hidden'); });
+    });
+  };
+  window.fvLib.quadros = quadros;
+
+  const FMT = {
+    isspc_mediana: (v) => 'R$ ' + F.int(v), pibpc_mediana: (v) => 'R$ ' + F.int(v), pib_real_bi: (v) => F.dec1(v),
+    isspc_idx: F.int, pibpc_idx: F.int, pib_idx: F.int,
+  };
+  dash.draw('series', (el) => {
+    const rows = ok('series');
+    if (!rows) { el.textContent = '—'; return; }
+    const sel = document.getElementById('fv-metrica');
+    const campo = sel ? sel.value : 'isspc_mediana';
+    const serie = (g) => rows.filter((r) => r.grupo === g).map((r) => ({x: +r.ano, y: num(r[campo])}));
+    quadros(el, TRECHOS.map((t) => ({
+      titulo: t, vline: INICIO[t],
+      series: [{nome: 'Controles', cor: 'var(--cds-chart-muted)', valores: serie(CTRL[t])}, {nome: 'Municípios do trecho', cor: cor(t), valores: serie(t)}],
+    })), {fmt: FMT[campo], eixoComum: /_idx$/.test(campo), zero: false, faixa: false});
+  });
+
+  const anual = (el, desfecho) => {
+    const rows = ok('sdid');
+    if (!rows) { el.textContent = '—'; return; }
+    const r = rows.filter((x) => x.desfecho === desfecho && x.controles === 'Todos os elegíveis');
+    const paineis = TRECHOS.map((t) => {
+      const v = r.filter((x) => x.ferrovia === t).map((x) => ({x: +x.ano, y: num(x.efeito), lo: num(x.ic_inf), hi: num(x.ic_sup)}));
+      // o ano anterior à obra entra como zero: é a referência do efeito
+      return {titulo: t, vline: INICIO[t], series: [{nome: 'Efeito', cor: cor(t), valores: v}]};
+    }).filter((p) => p.series[0].valores.length);
+    if (!paineis.length) { el.textContent = 'Sem estimativa para esta variável.'; return; }
+    quadros(el, paineis, {fmt: F.sinal1 === undefined ? F.dec2 : (v) => (v > 0 ? '+' : v < 0 ? '−' : '') + BR.format(',.2f')(Math.abs(v)), eixoComum: true, zero: true, faixa: true});
+  };
+  dash.draw('efeito-iss', (el) => anual(el, 'ISS real'));
+  dash.draw('efeito-anual', (el) => { const s = document.getElementById('fv-desfecho'); anual(el, s ? s.value : 'ISS real'); });
+})();
+</script>
+
+<script>
+// ---------- mapa, fases, estimadores e tabelas ----------
+(() => {
+  const {BR, F, num, ok, TRECHOS, cor, INICIO} = window.fvLib;
+  const dica = (el) => { const t = el.appendChild(document.createElement('div')); t.className = 'fv-tip'; t.hidden = true; return t; };
+  const mover = (tip, el, ev) => {
+    const c = el.getBoundingClientRect();
+    tip.hidden = false;
+    tip.style.left = Math.min(Math.max(0, ev.clientX - c.left + 12), Math.max(0, el.clientWidth - tip.offsetWidth)) + 'px';
+    tip.style.top = Math.max(0, ev.clientY - c.top + 12) + 'px';
+  };
+
+  dash.draw('mapa', (el) => {
+    const rows = ok('mapa');
+    if (!rows) { el.textContent = '—'; return; }
+    el.replaceChildren();
+    const W = +rows[0].largura, H = +rows[0].altura;
+    const svg = d3.select(el).append('svg').attr('class', 'fv-svg').attr('viewBox', `0 0 ${W} ${H}`).style('max-width', '560px').attr('role', 'img')
+      .attr('aria-label', 'Mapa de Bahia, Goiás, Minas Gerais e São Paulo com os municípios da FIOL I, FIOL II e FNS-ES e a linha férrea');
+    const tip = dica(el);
+    svg.selectAll('path.uf').data(rows.filter((r) => r.tipo === 'uf')).join('path').attr('d', (r) => r.d)
+      .style('fill', 'var(--color-panel)').style('stroke', 'var(--cds-chart-axis)').style('stroke-width', 1.5);
+    svg.selectAll('path.mun').data(rows.filter((r) => r.tipo === 'municipio')).join('path').attr('d', (r) => r.d)
+      .style('fill', (r) => cor(r.trecho)).style('stroke', 'var(--color-bg)').style('stroke-width', 1)
+      .on('mousemove', (ev, r) => { tip.textContent = `${r.nome} · ${r.trecho}`; mover(tip, el, ev); })
+      .on('mouseleave', () => { tip.hidden = true; });
+    svg.selectAll('path.lin').data(rows.filter((r) => r.tipo === 'linha')).join('path').attr('d', (r) => r.d)
+      .style('fill', 'none').style('stroke', 'var(--color-fg)').style('stroke-width', 2.5).style('stroke-linecap', 'round').style('pointer-events', 'none');
+    svg.selectAll('text.uf').data(rows.filter((r) => r.tipo === 'rotulo')).join('text')
+      .attr('x', (r) => +r.d.split(',')[0]).attr('y', (r) => +r.d.split(',')[1]).attr('text-anchor', 'middle').style('font-size', '26px').text((r) => r.nome);
+  });
+
+  dash.draw('gantt', (el) => {
+    const rows = ok('linha');
+    if (!rows) { el.textContent = '—'; return; }
+    el.replaceChildren();
+    const w = Math.max(280, el.clientWidth), alt = 46, m = {t: 6, r: 10, b: 24, l: 62}, h = m.t + m.b + alt * TRECHOS.length;
+    const svg = d3.select(el).append('svg').attr('class', 'fv-svg').attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img')
+      .attr('aria-label', 'Fases da obra de cada ferrovia, de 2002 a 2023');
+    const tip = dica(el);
+    const x = d3.scaleLinear().domain([2001.5, 2023.5]).range([m.l, w - m.r]);
+    const passo = w < 520 ? 4 : 2;
+    svg.selectAll('text.tx').data(d3.range(2002, 2024, passo)).join('text').attr('x', (d) => x(d)).attr('y', h - 6).attr('text-anchor', 'middle').text((d) => d);
+    TRECHOS.forEach((t, i) => {
+      const y0 = m.t + i * alt;
+      svg.append('text').attr('class', 'fv-ink').attr('x', 0).attr('y', y0 + alt / 2).attr('dy', '0.32em').text(t);
+      const fases = rows.filter((r) => r.ferrovia === t);
+      const g = svg.append('g');
+      g.selectAll('rect').data(fases).join('rect').attr('x', (r) => x(+r.inicio - 0.5) + 1).attr('width', (r) => Math.max(0, x(+r.fim + 0.5) - x(+r.inicio - 0.5) - 2))
+        .attr('y', y0 + 8).attr('height', alt - 16).attr('rx', 4)
+        .style('fill', (r) => (r.tipo === 'pré' ? 'var(--cds-chart-muted)' : cor(t))).style('opacity', (r, j) => (r.tipo === 'pré' ? 0.22 : 0.95 - 0.22 * (j - 1)))
+        .on('mousemove', (ev, r) => { tip.textContent = `${t} · ${r.fase}: ${r.inicio}–${r.fim}`; mover(tip, el, ev); })
+        .on('mouseleave', () => { tip.hidden = true; });
+      g.selectAll('text').data(fases).join('text').attr('class', 'fv-ink').attr('x', (r) => x((+r.inicio + +r.fim) / 2)).attr('y', y0 + alt / 2).attr('dy', '0.32em')
+        .attr('text-anchor', 'middle').style('pointer-events', 'none').text((r) => r.fase)
+        .each(function (r) { if (this.getComputedTextLength() > x(+r.fim + 0.5) - x(+r.inicio - 0.5) - 8) this.textContent = ''; });
+      svg.append('line').attr('x1', x(INICIO[t] - 0.5)).attr('x2', x(INICIO[t] - 0.5)).attr('y1', y0 + 2).attr('y2', y0 + alt - 2)
+        .style('stroke', 'var(--color-fg)').style('stroke-width', 2);
+    });
+  });
+
+  dash.draw('floresta', (el) => {
+    const rows = ok('resultados');
+    if (!rows) { el.textContent = '—'; return; }
+    const sel = document.getElementById('fv-desfecho');
+    const desfecho = sel ? sel.value : 'ISS real';
+    const EST = ["Callaway & Sant'Anna", 'Synthetic DiD', 'TWFE'], CON = ['Todos os elegíveis', 'Pareados'];
+    const r = rows.filter((x) => x.desfecho === desfecho).map((x) => ({...x, e: num(x.efeito), lo: num(x.ic_inf), hi: num(x.ic_sup), pv: num(x.p_valor)}));
+    el.replaceChildren();
+    const tip = dica(el);
+    const w = Math.max(280, el.clientWidth), lin = 18, cab = 24;
+    const linhas = [];
+    TRECHOS.forEach((t) => { linhas.push({cab: t}); EST.forEach((s) => CON.forEach((c) => {
+      const d = r.find((x) => x.ferrovia === t && x.estimador === s && x.controles === c); if (d) linhas.push({d, rot: s, c});
+    })); });
+    let y = 4; linhas.forEach((l) => { l.y = y; y += l.cab ? cab : lin; });
+    const h = y + 26;
+    const svg = d3.select(el).append('svg').attr('class', 'fv-svg').attr('viewBox', `0 0 ${w} ${h}`).attr('role', 'img')
+      .attr('aria-label', `Efeito sobre ${desfecho} por ferrovia, estimador e grupo de controle, com intervalo de 95%`);
+    const sonda = svg.append('text').text("Callaway & Sant'Anna"); const ml = Math.ceil(sonda.node().getComputedTextLength()) + 14; sonda.remove();
+    const mr = 64;
+    const ext = d3.extent(r.flatMap((x) => [x.lo, x.hi, 0]));
+    const x = d3.scaleLinear().domain(ext).nice(6).range([ml, w - mr]);
+    const ticks = x.ticks(w < 480 ? 4 : 6);
+    svg.selectAll('line.g').data(ticks).join('line').attr('x1', (d) => x(d)).attr('x2', (d) => x(d)).attr('y1', 0).attr('y2', h - 24)
+      .style('stroke', (d) => (d === 0 ? 'var(--cds-chart-axis)' : 'var(--cds-chart-grid)')).style('stroke-width', 1);
+    svg.selectAll('text.tx').data(ticks).join('text').attr('x', (d) => x(d)).attr('y', h - 8).attr('text-anchor', 'middle').text((d) => BR.format(',.1f')(d));
+    linhas.forEach((l) => {
+      if (l.cab) { svg.append('text').attr('class', 'fv-ink').attr('x', 0).attr('y', l.y + cab - 8).style('font-weight', 'var(--cds-font-weight-medium)').text(l.cab); return; }
+      const cy = l.y + lin / 2, c = l.c === 'Pareados' ? dash.colors[0] : 'var(--cds-chart-muted)';
+      if (l.c === 'Todos os elegíveis' || !linhas.some((o) => o.d && o.d.ferrovia === l.d.ferrovia && o.rot === l.rot && o.c === 'Todos os elegíveis')) {
+        svg.append('text').attr('x', 0).attr('y', cy).attr('dy', '0.32em').text(l.rot);
+      }
+      const g = svg.append('g');
+      g.append('line').attr('x1', x(l.d.lo)).attr('x2', x(l.d.hi)).attr('y1', cy).attr('y2', cy).style('stroke', c).style('stroke-width', 2);
+      g.append('circle').attr('cx', x(l.d.e)).attr('cy', cy).attr('r', 4.5).style('fill', c).style('stroke', 'var(--color-bg)').style('stroke-width', 2);
+      svg.append('text').attr('x', w).attr('y', cy).attr('dy', '0.32em').attr('text-anchor', 'end').style('font-variant-numeric', 'tabular-nums').text(F.ef(l.d.e));
+      svg.append('rect').attr('x', 0).attr('y', l.y).attr('width', w).attr('height', lin).style('fill', 'transparent')
+        .on('mousemove', (ev) => {
+          tip.replaceChildren();
+          const b = tip.appendChild(document.createElement('b')); b.textContent = `${l.d.ferrovia} · ${l.rot}`;
+          [`${l.c === 'Pareados' ? 'Controles pareados' : 'Todos os controles elegíveis'}`, `Efeito: ${F.ef(l.d.e)} (${F.sinal(num(l.d.efeito_pct))}%)`,
+           `IC 95%: ${F.ef(l.d.lo)} a ${F.ef(l.d.hi)}`, `p = ${F.p(l.d.pv)}`].forEach((s) => { const q = tip.appendChild(document.createElement('div')); q.textContent = s; });
+          mover(tip, el, ev);
+        })
+        .on('mouseleave', () => { tip.hidden = true; });
+    });
+  });
+
+  // ----- tabelas: o corpo é o desenho -----
+  const corpo = (tb, linhas) => {
+    tb.replaceChildren(...linhas.map((l) => {
+      const tr = document.createElement('tr'); if (l.chave !== undefined) tr.dataset.key = encodeURIComponent(l.chave); if (l.classe) tr.className = l.classe;
+      l.celulas.forEach((c) => { const td = tr.appendChild(document.createElement('td')); if (c && c.no) td.appendChild(c.no); else td.textContent = c && c.t !== undefined ? c.t : c; if (c && c.r) td.className = 'fv-r'; });
+      return tr;
+    }));
+  };
+  const R = (t) => ({t, r: true});
+  const n = (v, f) => (Number.isFinite(num(v)) ? f(num(v)) : '—');
+
+  dash.draw('descritiva', (tb) => {
+    const rows = ok('descritiva'); if (!rows) { tb.replaceChildren(); return; }
+    corpo(tb, rows.map((r) => ({chave: r.chave, celulas: [r.grupo, r.ano, R(n(r.municipios, F.int)), R(n(r.pop_mil, F.int)), R(n(r.pib_real_bi, F.dec1)),
+      R(n(r.pibpc_mediana, F.int)), R(n(r.pibpc_media, F.int)), R(n(r.part_agro, F.dec1)), R(n(r.part_ind, F.dec1)), R(n(r.part_serv, F.dec1)),
+      R(n(r.part_apu, F.dec1)), R(n(r.isspc_mediana, F.int)), R(n(r.municipios_com_iss, F.int))]})));
+  });
+
+  dash.draw('municipios', (tb) => {
+    const rows = ok('municipios'); if (!rows) { tb.replaceChildren(); return; }
+    const st = document.getElementById('fv-trecho'), so = document.getElementById('fv-ordem');
+    const trecho = st ? st.value : '', ordem = so ? so.value : 'km_linha';
+    const max = d3.max(rows, (r) => num(r.km_linha));
+    const sel = rows.filter((r) => !trecho || r.trecho === trecho)
+      .sort((a, b) => (Number.isFinite(num(b[ordem])) ? num(b[ordem]) : -Infinity) - (Number.isFinite(num(a[ordem])) ? num(a[ordem]) : -Infinity));
+    corpo(tb, sel.map((r) => {
+      const km = num(r.km_linha), cel = document.createElement('span');
+      if (Number.isFinite(km)) {
+        const b = cel.appendChild(document.createElement('i')); b.className = 'fv-bar'; b.style.width = Math.max(2, 110 * km / max) + 'px'; b.style.background = cor(r.trecho);
+        cel.appendChild(document.createTextNode(F.dec1(km)));
+      } else cel.textContent = 'Sem linha no OSM';
+      return {chave: r.cod_ibge, celulas: [r.municipio, r.uf, r.trecho, {no: cel}, R(n(r.pop_2019, F.int)), R(n(r.pib_2019_mi, F.int)), R(n(r.var_pib_pct, F.sinal1)),
+        R(n(r.pibpc_2019, F.int)), R(n(r.isspc_2019, F.int)), R(n(r.var_isspc_pct, F.sinal1)), R(n(r.anos_com_iss, F.int)), r.soja_pre_obra, r.com_par_psm]};
+    }));
+  });
+
+  dash.draw('fases', (tb) => {
+    const rows = ok('linha'); if (!rows) { tb.replaceChildren(); return; }
+    corpo(tb, rows.map((r) => ({chave: r.chave, celulas: [r.ferrovia, r.fase, R(r.inicio), R(r.fim)]})));
+  });
+  dash.draw('cs', (tb) => {
+    const rows = ok('cs'); if (!rows) { tb.replaceChildren(); return; }
+    corpo(tb, rows.map((r) => ({chave: r.chave, celulas: [r.desfecho, r.painel, R(n(r.efeito, F.ef)), R(n(r.efeito_pct, F.sinal1)), R(n(r.ic_inf, F.ef)), R(n(r.ic_sup, F.ef)),
+      R(n(r.p_valor, F.p)), R(n(r.p_pretendencia, F.p)), R(n(r.mde_80, F.dec3))]})));
+  });
+  dash.draw('janelas', (tb) => {
+    const rows = ok('janelas'); if (!rows) { tb.replaceChildren(); return; }
+    const ord = ['ISS real', 'ISS real per capita', 'PIB real', 'PIB real per capita'];
+    const s = [...rows].sort((a, b) => ord.indexOf(a.desfecho) - ord.indexOf(b.desfecho) || TRECHOS.indexOf(a.ferrovia) - TRECHOS.indexOf(b.ferrovia) || a.janela.localeCompare(b.janela) || a.estimador.localeCompare(b.estimador));
+    corpo(tb, s.map((r) => ({chave: r.chave, celulas: [r.desfecho, r.ferrovia, r.janela, r.estimador, R(n(r.efeito, F.ef)), R(n(r.ic_inf, F.ef)), R(n(r.ic_sup, F.ef)), R(n(r.p_valor, F.p))]})));
+  });
+})();
+</script>
