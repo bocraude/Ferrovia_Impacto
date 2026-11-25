@@ -188,6 +188,20 @@ if (file.exists(file.path(PI, "07_cs_tabela_ln_iss.csv"))) {
            rename(`todos: efeito (EP); p; n trat/ctrl` = todos, `pareados: efeito (EP); p; n trat/ctrl` = pareados)))
 }
 
+# ---- Impacto em reais (impacto_reais.R) ---------------------------------------------------
+if (file.exists("resultados_impacto_reais/impacto_reais_por_fase.csv")) {
+  ir <- read_csv("resultados_impacto_reais/impacto_reais_por_fase.csv", show_col_types = FALSE)
+  m1 <- function(x) formatC(x, digits = 1, format = "f", decimal.mark = ",", big.mark = ".")
+  add("## 7. Impacto em reais, por trecho e por fase (2002–2019)", "",
+      "R$ milhões de 2020, acumulados na fase. PIB pelo Synthetic DiD e ISS pelo Callaway & Sant'Anna (`impacto_reais.R`).",
+      "Contrafactual = observado / exp(efeito do ano); impacto = observado − contrafactual. IC 95% pelos percentis do impacto",
+      "recalculado em cada simulação do efeito (200 placebos no PIB; 5.000 sorteios dos efeitos anuais no ISS).",
+      "No ISS entram só os municípios-ano com declaração, então o montante é um piso.", "",
+      md(ir |> transmute(variável = variavel, ferrovia, fase, anos, `observado` = m1(observado_mi), `impacto` = m1(impacto_mi),
+                         `IC 95%` = paste0("[", m1(ic_inf_mi), "; ", m1(ic_sup_mi), "]"),
+                         `% do contrafactual` = n1(impacto_pct_contrafactual), `média anual` = m1(impacto_medio_anual_mi))))
+}
+
 texto <- readLines("resumo_texto.md", encoding = "UTF-8")
 i <- which(texto == "<!-- TABELAS -->")
 writeLines(c(texto[seq_len(i - 1)], out, texto[-seq_len(i)]), "RESUMO_RESULTADOS.md", useBytes = TRUE)

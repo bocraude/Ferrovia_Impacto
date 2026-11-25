@@ -49,6 +49,12 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
    efeito 0,094 (p = 0,674); o HonestDiD só exclui zero com Mbar = 0; e o controle sintético com
    doadores pareados não roda com anos faltantes.
 
+9. **Em reais (seção 7).** De 2011 a 2019, a arrecadação de ISS atribuída à obra soma R$ 295,9 milhões
+   na FIOL I (IC 95%: 39,5 a 457,6) e R$ 520,1 milhões na FNS-ES (208,6 a 742,1); na FIOL II, de 2013 a
+   2019, R$ 179,9 milhões (32,7 a 272,7). No PIB, os intervalos da FIOL I (−6.785,9 a 7.617,3) e da
+   FNS-ES (−15.532,3 a 22.399,3) incluem zero; o da FIOL II é positivo (R$ 10.473,2 milhões; 2.304,8 a
+   18.301,7), com a mesma ressalva da soja.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na
@@ -707,4 +713,30 @@ Controles pareados × todos os elegíveis (n = municípios da amostra; o Synthet
 | FNS-ES | ln(ISS real per capita) | TWFE | 0,514 (0,096); p = <0,001; n = 28/1571 | 0,502 (0,115); p = <0,001; n = 28/80 |
 | FNS-ES | ln(ISS real) | Synthetic DiD | 0,530 (0,112); p = <0,001; n = 28/1571 | 0,503 (0,136); p = <0,001; n = 28/80 |
 | FNS-ES | ln(ISS real per capita) | Synthetic DiD | 0,504 (0,116); p = <0,001; n = 28/1571 | 0,476 (0,123); p = <0,001; n = 28/80 |
+
+## 7. Impacto em reais, por trecho e por fase (2002–2019)
+
+R$ milhões de 2020, acumulados na fase. PIB pelo Synthetic DiD e ISS pelo Callaway & Sant'Anna (`impacto_reais.R`).
+Contrafactual = observado / exp(efeito do ano); impacto = observado − contrafactual. IC 95% pelos percentis do impacto
+recalculado em cada simulação do efeito (200 placebos no PIB; 5.000 sorteios dos efeitos anuais no ISS).
+No ISS entram só os municípios-ano com declaração, então o montante é um piso.
+
+| variável | ferrovia | fase | anos | observado | impacto | IC 95% | % do contrafactual | média anual |
+|---|---|---|---|---|---|---|---|---|
+| PIB real | FIOL I | 2011-2015 obra | 2011-2015 | 60.548,9 | 3.382,3 | [-404,2; 6.640,3] | 5,9 | 676,5 |
+| PIB real | FIOL I | 2016-2019 ritmo baixo | 2016-2019 | 48.484,9 | -2.428,4 | [-7.476,8; 2.464,0] | -4,8 | -607,1 |
+| PIB real | FIOL I | Total pós-obra | 2011-2019 | 109.033,8 | 953,8 | [-6.785,9; 7.617,3] | 0,9 | 106,0 |
+| PIB real | FIOL II | 2013-2017 início lento | 2013-2017 | 66.746,3 | 4.674,1 | [-512,9; 9.518,9] | 7,5 | 934,8 |
+| PIB real | FIOL II | 2018-2019 retomada | 2018-2019 | 30.921,1 | 5.799,2 | [2.202,1; 9.328,7] | 23,1 | 2.899,6 |
+| PIB real | FIOL II | Total pós-obra | 2013-2019 | 97.667,4 | 10.473,2 | [2.304,8; 18.301,7] | 12,0 | 1.496,2 |
+| PIB real | FNS-ES | 2011-2019 obra Valec | 2011-2019 | 272.811,9 | 1.873,1 | [-15.532,3; 22.399,3] | 0,7 | 208,1 |
+| PIB real | FNS-ES | Total pós-obra | 2011-2019 | 272.811,9 | 1.873,1 | [-15.532,3; 22.399,3] | 0,7 | 208,1 |
+| ISS real | FIOL I | 2011-2015 obra | 2011-2015 | 526,8 | 266,1 | [138,6; 351,0] | 102,1 | 53,2 |
+| ISS real | FIOL I | 2016-2019 ritmo baixo | 2016-2019 | 300,6 | 29,8 | [-118,9; 120,9] | 11,0 | 7,5 |
+| ISS real | FIOL I | Total pós-obra | 2011-2019 | 827,4 | 295,9 | [39,5; 457,6] | 55,7 | 32,9 |
+| ISS real | FIOL II | 2013-2017 início lento | 2013-2017 | 304,6 | 101,5 | [10,1; 162,6] | 49,9 | 20,3 |
+| ISS real | FIOL II | 2018-2019 retomada | 2018-2019 | 163,7 | 78,5 | [21,4; 110,5] | 92,1 | 39,2 |
+| ISS real | FIOL II | Total pós-obra | 2013-2019 | 468,4 | 179,9 | [32,7; 272,7] | 62,4 | 25,7 |
+| ISS real | FNS-ES | 2011-2019 obra Valec | 2011-2019 | 1.469,9 | 520,1 | [208,6; 742,1] | 54,8 | 57,8 |
+| ISS real | FNS-ES | Total pós-obra | 2011-2019 | 1.469,9 | 520,1 | [208,6; 742,1] | 54,8 | 57,8 |
 

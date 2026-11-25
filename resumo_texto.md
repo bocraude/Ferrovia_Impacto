@@ -49,6 +49,12 @@ desses mesmos arquivos. Efeitos em pontos de log (0,05 ≈ 5%).
    efeito 0,094 (p = 0,674); o HonestDiD só exclui zero com Mbar = 0; e o controle sintético com
    doadores pareados não roda com anos faltantes.
 
+9. **Em reais (seção 7).** De 2011 a 2019, a arrecadação de ISS atribuída à obra soma R$ 295,9 milhões
+   na FIOL I (IC 95%: 39,5 a 457,6) e R$ 520,1 milhões na FNS-ES (208,6 a 742,1); na FIOL II, de 2013 a
+   2019, R$ 179,9 milhões (32,7 a 272,7). No PIB, os intervalos da FIOL I (−6.785,9 a 7.617,3) e da
+   FNS-ES (−15.532,3 a 22.399,3) incluem zero; o da FIOL II é positivo (R$ 10.473,2 milhões; 2.304,8 a
+   18.301,7), com a mesma ressalva da soja.
+
 ## Avisos — o que não rodou ou foi alterado
 
 - **RAIS não baixada.** O servidor do MTE (ftp.mtps.gov.br) só atende por FTP, protocolo bloqueado na

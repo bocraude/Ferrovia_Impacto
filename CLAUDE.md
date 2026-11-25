@@ -32,6 +32,8 @@ escore de propensão. Datas de tratamento por ferrovia: FIOL I e FNS-ES em 2011,
    `Rscript rodar_iss.R` (mesma análise, saídas em `resultados_iss_*`); `DESFECHO=iss Rscript sdid_janelas.R`.
 5d. `Rscript analise_descritiva.R` — exploratória e descritiva por trecho (PIB, PIB per capita, ISS, km por município,
    linha do tempo e principais resultados) em `resultados_descritiva/`; alimenta o painel (`painel/index.html`). `python3 painel/gerar_html.py` gera o painel em arquivo único.
+5e. `Rscript impacto_reais.R` — impacto em R$ por trecho e por fase (PIB pelo Synthetic DiD, ISS pelo Callaway &
+   Sant'Anna), com IC 95%, em `resultados_impacto_reais/`.
 6. `Rscript rais_longa_scm.R` — série longa da RAIS (1995–) e controle sintético longo. É o mais pesado.
 
 ## Regras de trabalho
